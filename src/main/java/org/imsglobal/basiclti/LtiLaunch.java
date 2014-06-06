@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by paul on 5/28/14.
  */
-public class LtiLaunchResult {
+public class LtiLaunch {
 
     private LtiUser user;
 
@@ -17,7 +17,7 @@ public class LtiLaunchResult {
     private String launchPresentationReturnUrl;
     private String toolConsumerInstanceGuid;
 
-    public LtiLaunchResult(HttpServletRequest request) {
+    public LtiLaunch(HttpServletRequest request) {
         this.user = new LtiUser(request);
         this.version = request.getParameter("lti_version");
         this.messageType = request.getParameter("lti_message_type");

@@ -1,14 +1,22 @@
 package org.imsglobal.basiclti;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import net.oauth.OAuthMessage;
+import net.oauth.server.OAuthServlet;
+import org.junit.Assert;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+ @RunWith(PowerMockRunner.class)
+ @PrepareForTest(OAuthServlet.class)
 public class BasicLTIUtilTest {
 
     @Before
@@ -30,38 +38,24 @@ public class BasicLTIUtilTest {
     }
     
     @Test
-    public void testValidateMessage(){
+    public void testValidateMessage() throws IOException{
         
-        HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
+        HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
+        String url = "https://example.com/lti-launch";
+        
+        PowerMockito.mockStatic(OAuthServlet.class);
+        OAuthMessage messageMock = Mockito.mock(OAuthMessage.class);
+        
+        PowerMockito.when(OAuthServlet.getMessage(requestMock, url)).thenReturn(messageMock);
+
+        Mockito.when(messageMock.getConsumerKey()).thenThrow(new IOException("io exception"));
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(false, result.getSuccess());
         
         
-        Mockito.when(mockRequest.getRequestURL()).thenReturn(new StringBuffer("http://lti-chat.paulgray.net/lti"));
-        Mockito.when(mockRequest.getMethod()).thenReturn("POST");
-        Map<String, String[]> parameters = new HashMap<String, String[]>();
-        parameters.put("context_title", new String[]{"Stephen Thomas"});
-        parameters.put("context_id", new String[]{"10050204"});
-        parameters.put("launch_presentation_locale", new String[]{"en_US"});
-        parameters.put("lis_person_name_full", new String[]{"Administrator User"});
-        parameters.put("resource_link_id", new String[]{"10053400"});
-        parameters.put("lti_version", new String[]{"LTI-1p0"});
-        parameters.put("lis_person_name_given", new String[]{"Administrator"});
-        parameters.put("lis_person_contact_email_primary", new String[]{""});
-        parameters.put("lti_message_type", new String[]{"basic-lti-launch-request"});
-        parameters.put("lis_person_name_family", new String[]{"User"});
-        parameters.put("launch_presentation_return_url", new String[]{"https://localhost:8181/Users/Stephen.Thomas"});
-        parameters.put("lis_person_sourced_id", new String[]{"root"});
-        parameters.put("user_id", new String[]{"root"});
-        parameters.put("context_type", new String[]{"User"});
-        parameters.put("oauth_consumer_key", new String[]{"key"});
-        parameters.put("oauth_signature_method", new String[]{"HMAC-SHA1"});
-        parameters.put("oauth_timestamp", new String[]{"1400813143"});
-        parameters.put("oauth_nonce", new String[]{"29897184915117"});
-        parameters.put("oauth_version", new String[]{"1.0"});
-        parameters.put("oauth_signature", new String[]{"bm44kRiVAFNmn4Svk4DGpL5krDw="});
-        
-        Mockito.when(mockRequest.getParameterMap()).thenReturn(parameters);
-        
-        System.out.println("******" + BasicLTIUtil.validateMessage(mockRequest, "http://lti-chat.paulgray.net/lti", "secret"));
         
         
     }

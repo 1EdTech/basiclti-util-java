@@ -1,5 +1,7 @@
 #IMS Global - BasicLTI Utilities
 
+[![Build Status](https://travis-ci.org/pfgray/basiclti-util-java.svg?branch=master)](https://travis-ci.org/pfgray/basiclti-util-java)
+
 What is it?
 -----------
 

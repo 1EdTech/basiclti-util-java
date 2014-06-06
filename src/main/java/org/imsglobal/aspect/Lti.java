@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
-public @interface LtiLaunch {
+public @interface Lti {
     
     boolean rejectIfBad() default true;
     

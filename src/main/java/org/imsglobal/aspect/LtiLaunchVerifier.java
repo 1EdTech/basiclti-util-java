@@ -26,7 +26,7 @@ public class LtiLaunchVerifier {
     }
 
     @Around("@annotation(launch) && execution(* *(javax.servlet.http.HttpServletRequest+, org.imsglobal.basiclti.LtiVerificationResult)) && args(request,result)")
-    public Object verifyLtiLaunch(ProceedingJoinPoint pjp, LtiLaunch launch, HttpServletRequest request, LtiVerificationResult result) throws Throwable {
+    public Object verifyLtiLaunch(ProceedingJoinPoint pjp, Lti launch, HttpServletRequest request, LtiVerificationResult result) throws Throwable {
 
         String oauthSecret = keyService.getSecretForKey(request.getParameter("oauth_consumer_key"));
         result = BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);

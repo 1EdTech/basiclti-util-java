@@ -5,9 +5,6 @@
  */
 package org.imsglobal.basiclti;
 
-
-import javax.servlet.http.HttpServletRequest;
-
 /**
  *
  * @author pgray
@@ -17,7 +14,7 @@ public class LtiVerificationResult {
     private Boolean success;
     private LtiError error;
     private String message;
-    private LtiLaunchResult ltiLaunchResult;
+    private LtiLaunch ltiLaunchResult;
 
     public LtiVerificationResult() {
     }
@@ -28,12 +25,12 @@ public class LtiVerificationResult {
         this.message = message;
     }
 
-    public LtiVerificationResult(Boolean success, LtiLaunchResult ltiLaunchResult) {
+    public LtiVerificationResult(Boolean success, LtiLaunch ltiLaunchResult) {
         this.ltiLaunchResult = ltiLaunchResult;
         this.success = success;
     }
 
-    public LtiVerificationResult(Boolean success, LtiError error, String message, LtiLaunchResult ltiLaunchResult) {
+    public LtiVerificationResult(Boolean success, LtiError error, String message, LtiLaunch ltiLaunchResult) {
         this.success = success;
         this.error = error;
         this.message = message;
@@ -56,11 +53,11 @@ public class LtiVerificationResult {
         this.error = error;
     }
 
-    public LtiLaunchResult getLtiLaunchResult() {
+    public LtiLaunch getLtiLaunchResult() {
         return ltiLaunchResult;
     }
 
-    public void setLtiLaunchResult(LtiLaunchResult ltiLaunchResult) {
+    public void setLtiLaunchResult(LtiLaunch ltiLaunchResult) {
         this.ltiLaunchResult = ltiLaunchResult;
     }
 

@@ -146,7 +146,7 @@ public class BasicLTIUtil {
                 return new LtiVerificationResult(false, LtiError.BAD_REQUEST, "Failed to validate: " + e.getLocalizedMessage());
             }
         }
-        return new LtiVerificationResult(true, new LtiLaunchResult(request));
+        return new LtiVerificationResult(true, new LtiLaunch(request));
     }
 
     public static String validateDescriptor(String descriptor) {
