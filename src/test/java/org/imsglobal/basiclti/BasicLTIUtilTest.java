@@ -1,22 +1,26 @@
 package org.imsglobal.basiclti;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
 import net.oauth.OAuthMessage;
+import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
+import net.oauth.signature.OAuthSignatureMethod;
 import org.junit.Assert;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
- @RunWith(PowerMockRunner.class)
- @PrepareForTest(OAuthServlet.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({OAuthServlet.class, OAuthSignatureMethod.class})
 public class BasicLTIUtilTest {
 
     @Before
@@ -38,7 +42,7 @@ public class BasicLTIUtilTest {
     }
     
     @Test
-    public void testValidateMessage() throws IOException{
+    public void testValidateMessageFailsWhenNoConsumerKey() throws IOException, Exception{
         
         HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
         String url = "https://example.com/lti-launch";
@@ -55,8 +59,24 @@ public class BasicLTIUtilTest {
         Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
         Assert.assertEquals(false, result.getSuccess());
         
+    }
+    
+    
+    @Test
+    public void testValidateMessageFailWhenUriIsMalformed() throws Exception {
         
+        HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
+        String url = "https://example.com/lti-launch";
         
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenThrow(new URISyntaxException("","",0));
+        
+        //Mockito.doThrow(new URISyntaxException("","",0)).when(sovMock).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(false, result.getSuccess());
         
     }
 
