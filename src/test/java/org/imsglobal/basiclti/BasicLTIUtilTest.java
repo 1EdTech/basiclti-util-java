@@ -76,7 +76,26 @@ public class BasicLTIUtilTest {
         LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
 
         Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
-        Assert.assertEquals(false, result.getSuccess());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
+        
+    }
+    
+    
+    @Test
+    public void testValidateMessageFailOnIOException() throws Exception {
+        
+        HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
+        String url = "https://example.com/lti-launch";
+        
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenThrow(new IOException(""));
+        
+        //Mockito.doThrow(new URISyntaxException("","",0)).when(sovMock).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
         
     }
 
