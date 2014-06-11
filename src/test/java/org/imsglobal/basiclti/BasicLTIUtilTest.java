@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
 import net.oauth.OAuthAccessor;
+import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
 import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
@@ -105,6 +106,40 @@ public class BasicLTIUtilTest {
         SimpleOAuthValidator sov = Mockito.mock(SimpleOAuthValidator.class);
         PowerMockito.whenNew(SimpleOAuthValidator.class).withNoArguments().thenReturn(sov);
         Mockito.doThrow(new IOException("failed")).when(sov).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenReturn("");
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");        
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
+        Assert.assertEquals(null, result.getLtiLaunchResult());
+    }
+
+    @Test
+    public void testValidateMessageFailOnValidateMessageOAuthException() throws Exception {
+
+        SimpleOAuthValidator sov = Mockito.mock(SimpleOAuthValidator.class);
+        PowerMockito.whenNew(SimpleOAuthValidator.class).withNoArguments().thenReturn(sov);
+        Mockito.doThrow(new OAuthException("failed")).when(sov).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenReturn("");
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");        
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
+        Assert.assertEquals(null, result.getLtiLaunchResult());
+    }
+
+    @Test
+    public void testValidateMessageFailOnValidateMessageURISyntaxException() throws Exception {
+
+        SimpleOAuthValidator sov = Mockito.mock(SimpleOAuthValidator.class);
+        PowerMockito.whenNew(SimpleOAuthValidator.class).withNoArguments().thenReturn(sov);
+        Mockito.doThrow(new URISyntaxException("failed", "failed")).when(sov).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenReturn("");
 
         LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");        
 
