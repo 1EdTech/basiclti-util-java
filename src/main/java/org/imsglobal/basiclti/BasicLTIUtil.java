@@ -115,7 +115,6 @@ public class BasicLTIUtil {
         M_log.fine(str);
     }
 
-    // expected_oauth_key can be null - if it is non-null it must match the key in the request
     public static LtiVerificationResult validateMessage(HttpServletRequest request, String URL, String oauth_secret) {
         OAuthMessage oam = OAuthServlet.getMessage(request, URL);
         String oauth_consumer_key = null;

@@ -3,6 +3,7 @@ package org.imsglobal.basiclti;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
+import net.oauth.OAuthAccessor;
 import net.oauth.OAuthMessage;
 import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
@@ -20,7 +21,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({OAuthServlet.class, OAuthSignatureMethod.class})
+@PrepareForTest({OAuthServlet.class, OAuthSignatureMethod.class, SimpleOAuthValidator.class})
 public class BasicLTIUtilTest {
 
     @Before
@@ -57,7 +58,7 @@ public class BasicLTIUtilTest {
         LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
 
         Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
-        Assert.assertEquals(false, result.getSuccess());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
         
     }
     
@@ -80,7 +81,6 @@ public class BasicLTIUtilTest {
         
     }
     
-    
     @Test
     public void testValidateMessageFailOnIOException() throws Exception {
         
@@ -97,6 +97,20 @@ public class BasicLTIUtilTest {
         Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
         Assert.assertEquals(Boolean.FALSE, result.getSuccess());
         
+    }
+
+    @Test
+    public void testValidateMessageFailOnValidateMessageIOException() throws Exception {
+
+        SimpleOAuthValidator sov = Mockito.mock(SimpleOAuthValidator.class);
+        PowerMockito.whenNew(SimpleOAuthValidator.class).withNoArguments().thenReturn(sov);
+        Mockito.doThrow(new IOException("failed")).when(sov).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");        
+
+        Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
+        Assert.assertEquals(Boolean.FALSE, result.getSuccess());
+        Assert.assertEquals(null, result.getLtiLaunchResult());
     }
 
 }
