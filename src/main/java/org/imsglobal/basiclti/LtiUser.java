@@ -1,8 +1,7 @@
 package org.imsglobal.basiclti;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,7 +14,10 @@ public class LtiUser {
 
     public LtiUser(HttpServletRequest request) {
         this.id = request.getParameter("user_id");
-        this.roles = Arrays.asList(request.getParameter("roles").split(","));
+        this.roles = new LinkedList<>();
+        for(String role : request.getParameter("roles").split(",")){
+            this.roles.add(role.trim());
+        }
     }
 
     public String getId() {

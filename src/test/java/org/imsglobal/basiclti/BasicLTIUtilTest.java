@@ -22,7 +22,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({OAuthServlet.class, OAuthSignatureMethod.class, SimpleOAuthValidator.class})
+@PrepareForTest({OAuthServlet.class, OAuthSignatureMethod.class, SimpleOAuthValidator.class, BasicLTIUtil.class})
 public class BasicLTIUtilTest {
 
     @Before
@@ -72,8 +72,6 @@ public class BasicLTIUtilTest {
         
         PowerMockito.mockStatic(OAuthSignatureMethod.class);
         PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenThrow(new URISyntaxException("","",0));
-        
-        //Mockito.doThrow(new URISyntaxException("","",0)).when(sovMock).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
 
         LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
 
@@ -90,8 +88,6 @@ public class BasicLTIUtilTest {
         
         PowerMockito.mockStatic(OAuthSignatureMethod.class);
         PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenThrow(new IOException(""));
-        
-        //Mockito.doThrow(new URISyntaxException("","",0)).when(sovMock).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
 
         LtiVerificationResult result = BasicLTIUtil.validateMessage(requestMock, url, "secret");
 
@@ -148,4 +144,44 @@ public class BasicLTIUtilTest {
         Assert.assertEquals(null, result.getLtiLaunchResult());
     }
 
+    @Test
+    public void testValidateMessagePass() throws Exception {
+
+        SimpleOAuthValidator sov = Mockito.mock(SimpleOAuthValidator.class);
+        PowerMockito.whenNew(SimpleOAuthValidator.class).withNoArguments().thenReturn(sov);
+        Mockito.doNothing().when(sov).validateMessage(Matchers.any(OAuthMessage.class), Matchers.any(OAuthAccessor.class));
+        PowerMockito.mockStatic(OAuthSignatureMethod.class);
+        PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenReturn("");
+        
+        HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
+        Mockito.when(req.getParameter("user_id")).thenReturn("pgray");
+        Mockito.when(req.getParameter("roles")).thenReturn("instructor, teacher,administrator");
+        Mockito.when(req.getParameter("lti_version")).thenReturn("lpv1");
+        Mockito.when(req.getParameter("lti_message_type")).thenReturn("lti");
+        Mockito.when(req.getParameter("resource_link_id")).thenReturn("12345");
+        Mockito.when(req.getParameter("context_id")).thenReturn("9876");
+        Mockito.when(req.getParameter("launch_presentation_return_url")).thenReturn("http://example.com/return");
+        Mockito.when(req.getParameter("tool_consumer_instance_guid")).thenReturn("instance_id");
+
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(req, "https://example.com/lti-launch", "secret1");        
+
+        Assert.assertEquals(null, result.getError());
+        Assert.assertEquals(Boolean.TRUE, result.getSuccess());
+        Assert.assertNotNull(result.getLtiLaunchResult());
+        
+        Assert.assertEquals("pgray", result.getLtiLaunchResult().getUser().getId());
+        Assert.assertEquals(3, result.getLtiLaunchResult().getUser().getRoles().size());
+        Assert.assertTrue(result.getLtiLaunchResult().getUser().getRoles().contains("instructor"));
+        Assert.assertTrue(result.getLtiLaunchResult().getUser().getRoles().contains("teacher"));
+        Assert.assertTrue(result.getLtiLaunchResult().getUser().getRoles().contains("administrator"));
+        
+        Assert.assertEquals("lpv1", result.getLtiLaunchResult().getVersion());
+        Assert.assertEquals("lti", result.getLtiLaunchResult().getMessageType());
+        Assert.assertEquals("12345", result.getLtiLaunchResult().getResourceLinkId());
+        Assert.assertEquals("9876", result.getLtiLaunchResult().getContextId());
+        Assert.assertEquals("http://example.com/return", result.getLtiLaunchResult().getLaunchPresentationReturnUrl());
+        Assert.assertEquals("instance_id", result.getLtiLaunchResult().getToolConsumerInstanceGuid());
+        
+    }
+    
 }
