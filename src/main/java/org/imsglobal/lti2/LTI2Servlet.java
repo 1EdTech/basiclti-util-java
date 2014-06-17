@@ -32,12 +32,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.imsglobal.basiclti.BasicLTIConstants;
 import org.imsglobal.basiclti.BasicLTIUtil;
+import org.imsglobal.basiclti.LtiVerificationResult;
 import org.imsglobal.json.IMSJSONRequest;
 import org.imsglobal.lti2.objects.Service_offered;
 import org.imsglobal.lti2.objects.StandardServices;
@@ -546,10 +548,10 @@ System.out.println("accept="+acceptHdr+" ac="+acceptComplex);
 		String oauth_secret = (String) security_contract.get(LTI2Constants.SHARED_SECRET);
 
 		// Validate the incoming message
-		Object retval = BasicLTIUtil.validateMessage(request, URL, oauth_secret);
-		if ( retval instanceof String ) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN); 
-			doErrorJSON(request,response, jsonRequest, (String) retval, null);
+		LtiVerificationResult result = BasicLTIUtil.validateMessage(request, URL, oauth_secret);
+		if (!result.getSuccess()) {
+			response.setStatus(HttpStatus.SC_FORBIDDEN);
+			doErrorJSON(request,response, jsonRequest, result.getMessage(), null);
 			return;
 		}
 
