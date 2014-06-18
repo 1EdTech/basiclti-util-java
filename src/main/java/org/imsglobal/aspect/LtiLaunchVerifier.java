@@ -12,6 +12,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.imsglobal.basiclti.BasicLTIUtil;
 import org.imsglobal.basiclti.LtiVerificationResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author pgray
@@ -25,13 +28,43 @@ public class LtiLaunchVerifier {
         this.keyService = ltiKeySecretService;
     }
 
-    @Around("@annotation(launch) && execution(* *(javax.servlet.http.HttpServletRequest+, org.imsglobal.basiclti.LtiVerificationResult)) && args(request,result)")
-    public Object verifyLtiLaunch(ProceedingJoinPoint pjp, Lti launch, HttpServletRequest request, LtiVerificationResult result) throws Throwable {
+    //@Around("@annotation(launch) && execution(* *(javax.servlet.http.HttpServletRequest+, org.imsglobal.basiclti.LtiVerificationResult, ..)) && args(request, result)")
+    @Around("@annotation(launch)")
+    public Object verifyLtiLaunch(ProceedingJoinPoint pjp, Lti launch) throws Throwable {
+        HttpServletRequest request = null;
+        for (Object arg : pjp.getArgs()) {
+            if (HttpServletRequest.class.isInstance(arg)) {
+                request = (HttpServletRequest) arg;
+            }
+        }
+        if(request == null){
+            throw new IllegalStateException(getErrorMessageForArgumentClass("HttpServletRequest", pjp.getSignature().toLongString()));
+        }
 
+        System.out.println("checking lti params...");
         String oauthSecret = keyService.getSecretForKey(request.getParameter("oauth_consumer_key"));
-        result = BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);
+        LtiVerificationResult ltiResult = BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);
 
-        return pjp.proceed(new Object[] {request, result});
+        Boolean ltiVerificationResultExists = false;
+        //This array will hold the arguments to the join point, so we can pass them along to the advised function.
+        List<Object> args = new ArrayList<>(pjp.getArgs().length);
+        for (Object arg : pjp.getArgs()) {
+            if (arg.getClass().equals(LtiVerificationResult.class)) {
+                args.add(ltiResult);
+                ltiVerificationResultExists = true;
+            } else {
+                args.add(arg);
+            }
+        }
+        if(!ltiVerificationResultExists){
+            throw new IllegalStateException(getErrorMessageForArgumentClass("LtiVerificationResult", pjp.getSignature().toLongString()));
+        }
+
+        return pjp.proceed(args.toArray());
+    }
+
+    public String getErrorMessageForArgumentClass(String argumentClass, String signature){
+        return "The LtiLaunchVerifier instance cannot find the " + argumentClass + " argument on method: " + signature + ", are you sure it was declared?";
     }
 
 }

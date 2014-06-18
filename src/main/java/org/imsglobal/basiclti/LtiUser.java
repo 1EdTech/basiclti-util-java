@@ -15,8 +15,10 @@ public class LtiUser {
     public LtiUser(HttpServletRequest request) {
         this.id = request.getParameter("user_id");
         this.roles = new LinkedList<>();
-        for(String role : request.getParameter("roles").split(",")){
-            this.roles.add(role.trim());
+        if(request.getParameter("roles") != null) {
+            for (String role : request.getParameter("roles").split(",")) {
+                this.roles.add(role.trim());
+            }
         }
     }
 
