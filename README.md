@@ -13,19 +13,19 @@ and make the process more opaque to the developer.
 How to use:
 -----------
 Install via Maven:
-```bash
-    git clone https://github.com/pfgray/basiclti-util-java.git
-    cd basiclti-util-java/
-    mvn clean install
+```
+git clone https://github.com/pfgray/basiclti-util-java.git
+cd basiclti-util-java/
+mvn clean install
 ```
 Include in your project's `pom.xml`:
 
 ```xml
-    <dependency>
-        <groupId>org.imsglobal</groupId>
-        <artifactId>basiclti-util</artifactId>
-        <version>1.0.0</version>
-    </dependency>
+<dependency>
+    <groupId>org.imsglobal</groupId>
+    <artifactId>basiclti-util</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 Examples:
 ---------
