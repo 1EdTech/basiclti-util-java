@@ -13,53 +13,56 @@ and make the process more opaque to the developer.
 How to use:
 -----------
 Install via Maven:
-
+```bash
     git clone https://github.com/pfgray/basiclti-util-java.git
     cd basiclti-util-java/
     mvn clean install
-
+```
 Include in your project's `pom.xml`:
 
+```xml
     <dependency>
         <groupId>org.imsglobal</groupId>
         <artifactId>basiclti-util</artifactId>
         <version>1.0.0</version>
     </dependency>
-
+```
 Examples:
 ---------
 
 LTI Producer:
 
 Spring Controller (LTI Producer):
-
-    @Lti
-    @RequestMapping(value = "/lti", method = RequestMethod.POST)
-    public String ltiEntry(HttpServletRequest request, LtiVerificationResult result) {
-        if(!result.getSuccess()){
-            return "error";
-        } else {
-            return "success";
-        }
+```java
+@Lti
+@RequestMapping(value = "/lti", method = RequestMethod.POST)
+public String ltiEntry(HttpServletRequest request, LtiVerificationResult result) {
+    if(!result.getSuccess()){
+        return "error";
+    } else {
+        return "success";
     }
+}
+```
 KeyService Implementation:
-
-    public class MockKeyService implements LtiKeySecretService {
-        public String getSecretForKey(String key) {
-            return "secret";
-        }
+```java
+public class MockKeyService implements LtiKeySecretService {
+    public String getSecretForKey(String key) {
+        return "secret";
     }
+}
+```
 
 Spring Context xml:
+```xml
+<aop:aspectj-autoproxy/>
 
-    <aop:aspectj-autoproxy/>
-
-    <bean id="myAspect" class="org.imsglobal.aspect.LtiLaunchVerifier">
-        <constructor-arg>
-            <bean class="com.example.MockKeyService"/>
-        </constructor-arg>
-    </bean>
-
+<bean id="myAspect" class="org.imsglobal.aspect.LtiLaunchVerifier">
+    <constructor-arg>
+        <bean class="com.example.MockKeyService"/>
+    </constructor-arg>
+</bean>
+```
 How to Contribute:
 ------------------
 1. Fork the repo
