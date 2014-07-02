@@ -28,8 +28,8 @@ import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.httpclient.util.Base64;
 import org.imsglobal.basiclti.XMLMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -224,7 +224,7 @@ public class IMSPOXRequest {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA1");
 			md.update(postBody.getBytes()); 
-			byte[] output = Base64.encode(md.digest());
+			byte[] output = Base64.encodeBase64(md.digest());
 			String hash = new String(output);
 			// System.out.println("HASH="+hash);
 			if ( ! hash.equals(oauth_body_hash) ) {

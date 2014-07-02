@@ -21,7 +21,7 @@ import net.oauth.OAuthValidator;
 import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
-import org.apache.commons.httpclient.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 import org.json.simple.JSONValue;
 
@@ -137,7 +137,7 @@ public class IMSJSONRequest {
 			postBody = new String(bytes, "UTF-8");
 			MessageDigest md = MessageDigest.getInstance("SHA1");
 			md.update(bytes); 
-			byte[] output = Base64.encode(md.digest());
+			byte[] output = Base64.encodeBase64(md.digest());
 			String hash = new String(output);
 			System.out.println("HASH="+hash+" bytes="+bytes.length);
 			if ( ! hash.equals(oauth_body_hash) ) {
