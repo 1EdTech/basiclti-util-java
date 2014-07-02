@@ -1,6 +1,7 @@
 package org.imsglobal.pox;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Reader;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
@@ -27,9 +28,16 @@ import net.oauth.OAuthValidator;
 import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.imsglobal.basiclti.XMLMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -481,35 +489,72 @@ public class IMSPOXRequest {
 				bodyString, newLine); 
 
 	}
+	
+	static final String replaceResultMessage =
+			"<?xml version = \"1.0\" encoding = \"UTF-8\"?>"+
+			"<imsx_POXEnvelopeRequest xmlns=\"http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0\">"+
+			"	<imsx_POXHeader>"+
+			"		<imsx_POXRequestHeaderInfo>"+
+			"			<imsx_version>V1.0</imsx_version>"+
+			"		</imsx_POXRequestHeaderInfo>"+
+			"	</imsx_POXHeader>"+
+			"	<imsx_POXBody>"+
+			"		<replaceResultRequest>"+
+			"			<resultRecord>"+
+			"				<sourcedGUID>"+
+			"					<sourcedId>%s</sourcedId>"+
+			"				</sourcedGUID>"+
+			"				<result>"+
+			"					<resultScore>"+
+			"						<textString>%s</textString>"+
+			"					</resultScore>"+
+			"					%s"+
+			"				</result>"+
+			"			</resultRecord>"+
+			"		</replaceResultRequest>"+
+			"	</imsx_POXBody>"+
+			"</imsx_POXEnvelopeRequest>";
+	
+	static final String resultDataText = "<resultData><text>%s</text></resultData>";
+	
+	static final String resultDataUrl = "<resultData><text>%s</text></resultData>";
+	
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score) throws IOException, OAuthException {
+		sendReplaceResult(url, key, secret, sourcedid, score, null);
+	}
+	
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData) throws IOException, OAuthException {
+		sendReplaceResult(url, key, secret, sourcedid, score, resultData, false);
+	}
+	 
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException {
+		String dataXml = "";
+		if (resultData != null) {
+			if (isUrl) {
+				dataXml = String.format(resultDataUrl, StringEscapeUtils.escapeXml(resultData));
+			} else {
+				dataXml = String.format(resultDataText, StringEscapeUtils.escapeXml(resultData));
+			}
+		}
+		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(sourcedid),
+				StringEscapeUtils.escapeXml(score), dataXml);
+		
+		CommonsHttpOAuthConsumer signer = new CommonsHttpOAuthConsumer(key, secret);
+		HttpPost request = new HttpPost(url);
+		request.setHeader("Content-Type", "application/xml");
+		request.setEntity(new StringEntity(xml, "UTF-8"));
+		signer.sign(request);
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(request);
+		if (response.getStatusLine().getStatusCode() >= 400) {
+			throw new HttpResponseException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
+		}
+	}
 
 	/** Unit Tests */
-	static final String inputTestData = "<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n" +  
-		"<imsx_POXEnvelopeRequest xmlns = \"http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0\">\n" + 
-		"<imsx_POXHeader>\n" + 
-		"<imsx_POXRequestHeaderInfo>\n" + 
-		"<imsx_version>V1.0</imsx_version>\n" + 
-		"<imsx_messageIdentifier>999999123</imsx_messageIdentifier>\n" + 
-		"</imsx_POXRequestHeaderInfo>\n" + 
-		"</imsx_POXHeader>\n" + 
-		"<imsx_POXBody>\n" + 
-		"<replaceResultRequest>\n" + 
-		"<resultRecord>\n" + 
-		"<sourcedGUID>\n" + 
-		"<sourcedId>3124567</sourcedId>\n" + 
-		"</sourcedGUID>\n" + 
-		"<result>\n" + 
-		"<resultScore>\n" + 
-		"<language>en-us</language>\n" + 
-		"<textString>A</textString>\n" + 
-		"</resultScore>\n" + 
-		"</result>\n" + 
-		"</resultRecord>\n" + 
-		"</replaceResultRequest>\n" + 
-		"</imsx_POXBody>\n" + 
-		"</imsx_POXEnvelopeRequest>";
-
 	public static void runTest() {
 		System.out.println("Runnig test.");
+		String inputTestData = String.format(replaceResultMessage, "3124567", "A", "");
 		IMSPOXRequest pox = new IMSPOXRequest(inputTestData);
 		System.out.println("Version = "+pox.getHeaderVersion());
 		System.out.println("Operation = "+pox.getOperation());

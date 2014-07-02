@@ -5,7 +5,7 @@
     <name>IMS BasicLTI Utilities</name>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <organization>
         <name>IMS Global Learning Consortium</name>
         <url>www.imsglobal.org/</url>
@@ -52,6 +52,16 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.0.1</version>
+        </dependency>
+        <dependency>
+          <groupId>oauth.signpost</groupId>
+          <artifactId>signpost-core</artifactId>
+          <version>1.2.1.2</version>
+        </dependency>
+        <dependency>
+          <groupId>oauth.signpost</groupId>
+          <artifactId>signpost-commonshttp4</artifactId>
+          <version>1.2.1.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
