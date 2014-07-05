@@ -517,7 +517,7 @@ public class IMSPOXRequest {
 	
 	static final String resultDataText = "<resultData><text>%s</text></resultData>";
 	
-	static final String resultDataUrl = "<resultData><text>%s</text></resultData>";
+	static final String resultDataUrl = "<resultData><url>%s</url></resultData>";
 	
 	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score) throws IOException, OAuthException {
 		sendReplaceResult(url, key, secret, sourcedid, score, null);
@@ -530,11 +530,8 @@ public class IMSPOXRequest {
 	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException {
 		String dataXml = "";
 		if (resultData != null) {
-			if (isUrl) {
-				dataXml = String.format(resultDataUrl, StringEscapeUtils.escapeXml(resultData));
-			} else {
-				dataXml = String.format(resultDataText, StringEscapeUtils.escapeXml(resultData));
-			}
+			String format = isUrl ? resultDataUrl : resultDataText;
+			dataXml = String.format(format, StringEscapeUtils.escapeXml(resultData));
 		}
 		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(sourcedid),
 				StringEscapeUtils.escapeXml(score), dataXml);
