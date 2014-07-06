@@ -490,7 +490,7 @@ public class IMSPOXRequest {
 
 	}
 	
-	static final String replaceResultMessage =
+	public static final String replaceResultMessage =
 			"<?xml version = \"1.0\" encoding = \"UTF-8\"?>"+
 			"<imsx_POXEnvelopeRequest xmlns=\"http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0\">"+
 			"	<imsx_POXHeader>"+
@@ -546,58 +546,6 @@ public class IMSPOXRequest {
 		if (response.getStatusLine().getStatusCode() >= 400) {
 			throw new HttpResponseException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
 		}
-	}
-
-	/** Unit Tests */
-	public static void runTest() {
-		System.out.println("Runnig test.");
-		String inputTestData = String.format(replaceResultMessage, "3124567", "A", "");
-		IMSPOXRequest pox = new IMSPOXRequest(inputTestData);
-		System.out.println("Version = "+pox.getHeaderVersion());
-		System.out.println("Operation = "+pox.getOperation());
-		Map<String,String> bodyMap = pox.getBodyMap();
-		String guid = bodyMap.get("/resultRecord/sourcedGUID/sourcedId");
-		System.out.println("guid="+guid);
-		String grade = bodyMap.get("/resultRecord/result/resultScore/textString");
-		System.out.println("grade="+grade);
-
-		String desc = "Message received and validated operation="+pox.getOperation()+
-			" guid="+guid+" grade="+grade;
-
-		String output = pox.getResponseUnsupported(desc);
-		System.out.println("---- Unsupported ----");
-		System.out.println(output);
-
-		Properties props = new Properties();
-		props.setProperty("fred","zap");
-		props.setProperty("sam",IMSPOXRequest.MINOR_IDALLOC);
-		System.out.println("---- Generate Log Error ----");
-		output = pox.getResponseFailure(desc,props);
-		System.out.println("---- Failure ----");
-		System.out.println(output);
-
-
-
-		Map<String, Object> theMap = new TreeMap<String, Object> ();
-		theMap.put("/readMembershipResponse/membershipRecord/sourcedId", "123course456");
-
-		List<Map<String,String>> lm = new ArrayList<Map<String,String>>();
-		Map<String,String> mm = new TreeMap<String,String>();
-		mm.put("/personSourcedId","123user456");
-		mm.put("/role/roleType","Learner");
-		lm.add(mm);
-
-		mm = new TreeMap<String,String>();
-		mm.put("/personSourcedId","789user123");
-		mm.put("/role/roleType","Instructor");
-		lm.add(mm);
-		theMap.put("/readMembershipResponse/membershipRecord/membership/member", lm);
-
-		String theXml = XMLMap.getXMLFragment(theMap, true);
-		// System.out.println("th="+theXml);
-		output = pox.getResponseSuccess(desc,theXml);
-		System.out.println("---- Success String ----");
-		System.out.println(output);
 	}
 
 	/*
