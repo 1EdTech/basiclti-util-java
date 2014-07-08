@@ -3,6 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>IMS BasicLTI Utilities</name>
+    <description>BasicLTI Utilities are a set of utility classes to aid in the development of BasicLTI consumers and providers. They deal with much of the heavy lifting and make the process more opaque to the developer.</description>
+    <url>https://github.com/pfgray/basiclti-util-java</url>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
     <version>1.0.0</version>
@@ -12,6 +14,37 @@
     </organization>
     <inceptionYear>2009</inceptionYear>
     <packaging>jar</packaging>
+    <licenses>
+      <license>
+        <name>The Apache Software License, Version 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      </license>
+    </licenses>
+    <developers>
+      <developer>
+        <name>Charles Severance</name>
+        <email>csev@umich.edu</email>
+        <organization>University of Michigan</organization>
+        <organizationUrl>https://www.si.umich.edu/</organizationUrl>
+      </developer>
+      <developer>
+        <name>Paul Gray</name>
+        <email>pfbgray@gmail.com</email>
+        <organization>Learning Objects</organization>
+        <organizationUrl>http://www.learningobjects.com/</organizationUrl>
+      </developer>
+      <developer>
+        <name>Braden Anderson</name>
+        <email>braden@instructure.com</email>
+        <organization>Instructure</organization>
+        <organizationUrl>http://www.instructure.com/</organizationUrl>
+      </developer>
+    </developers>
+    <scm>
+      <connection>scm:git:git@github.com:pfgray/basiclti-util-java.git</connection>
+      <developerConnection>scm:git:git@github.com:pfgray/basiclti-util-java.git</developerConnection>
+      <url>git@github.com:pfgray/basiclti-util-java.git</url>
+    </scm>
 
     <properties>
         <powermock.version>1.5.5</powermock.version>
