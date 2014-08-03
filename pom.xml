@@ -7,7 +7,7 @@
     <url>https://github.com/pfgray/basiclti-util-java</url>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <organization>
         <name>IMS Global Learning Consortium</name>
         <url>www.imsglobal.org/</url>
