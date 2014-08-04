@@ -4,7 +4,7 @@
 
     <name>IMS BasicLTI Utilities</name>
     <description>BasicLTI Utilities are a set of utility classes to aid in the development of BasicLTI consumers and providers. They deal with much of the heavy lifting and make the process more opaque to the developer.</description>
-    <url>https://github.com/pfgray/basiclti-util-java</url>
+    <url>https://github.com/IMSGlobal/basiclti-util-java</url>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
     <version>1.0.1-SNAPSHOT</version>
@@ -41,9 +41,9 @@
       </developer>
     </developers>
     <scm>
-      <connection>scm:git:git@github.com:pfgray/basiclti-util-java.git</connection>
-      <developerConnection>scm:git:git@github.com:pfgray/basiclti-util-java.git</developerConnection>
-      <url>git@github.com:pfgray/basiclti-util-java.git</url>
+      <connection>scm:git:git@github.com:IMSGlobal/basiclti-util-java.git</connection>
+      <developerConnection>scm:git:git@github.com:IMSGlobal/basiclti-util-java.git</developerConnection>
+      <url>git@github.com:IMSGlobal/basiclti-util-java.git</url>
     </scm>
 
     <properties>
