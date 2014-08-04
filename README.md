@@ -1,12 +1,12 @@
-#IMS Global - BasicLTI Utilities
+#IMS Global - LTI™ Utilities
 
 [![Build Status](https://travis-ci.org/pfgray/basiclti-util-java.svg?branch=master)](https://travis-ci.org/pfgray/basiclti-util-java)
 
 What is it?
 -----------
 
-BasicLTI Utilities are a set of utility classes to aid  in the development
-of BasicLTI consumers and providers. They deal with much of the heavy lifting
+LTI™ Utilities are a set of utility classes to aid  in the development
+of LTI v1.0 consumers and providers. They deal with much of the heavy lifting
 and make the process more opaque to the developer.
 
 
@@ -74,3 +74,5 @@ TODO List:
 
 - [ ] Write Unit tests for LTI Consumer code
 - [ ] Write Unit tests for LTI 2 code
+
+© 2014 IMS Global Learning Consortium, Inc. All Rights Reserved.   
