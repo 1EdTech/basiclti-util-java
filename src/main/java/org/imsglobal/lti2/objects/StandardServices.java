@@ -16,8 +16,8 @@ public class StandardServices {
 	public static final String RESULT_CONTEXT = "http://purl.imsglobal.org/ctx/lis/v2/Result";
 	public static final String RESULT_TYPE = "Result";
 
-    public static Service_offered LTI2Registration(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI2Registration(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxy.collection");    // TODO: Is this right see 5.6 in the docs
 		ret.set_type("RestService");
@@ -27,8 +27,8 @@ public class StandardServices {
     }
 
     // "endpoint" : "http://lms.example.com/resources/ToolProxy/{tool_proxy_guid}",
-    public static Service_offered LTI2ProxyItem(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI2ProxyItem(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxy.item");
 		ret.set_type("RestService");
@@ -38,8 +38,8 @@ public class StandardServices {
     }
 
     // "endpoint" : "http://lms.example.com/resources/Result/{sourcedId}",
-    public static Service_offered LTI2ResultItem(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI2ResultItem(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:Result.item");    // TODO: Is this right see 5.6 in the docs
 		ret.set_type("RestService");
@@ -49,8 +49,8 @@ public class StandardServices {
     }
 
     // "endpoint" : "http://lms.example.com/resources/ToolProxy/{tool_proxy_guid}/custom",
-    public static Service_offered LTI2ToolProxySettings(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI2ToolProxySettings(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxySettings");    
 		ret.set_type("RestService");
@@ -60,8 +60,8 @@ public class StandardServices {
     }
 
     // "endpoint" : "http://lms.example.com/resources/links/{link_id}/custom",
-    public static Service_offered LTI2LtiLinkSettings(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI2LtiLinkSettings(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:LtiLinkSettings");    
 		ret.set_type("RestService");
@@ -70,8 +70,8 @@ public class StandardServices {
 		return ret;
     }
 
-    public static Service_offered LTI1Outcomes(String endpoint) {
-		Service_offered ret = new Service_offered();
+    public static ServiceOffered LTI1Outcomes(String endpoint) {
+		ServiceOffered ret = new ServiceOffered();
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:LTI_1_1_ResultService");
 		ret.set_type("RestService");

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.imsglobal.basiclti.BasicLTIUtil;
-import org.imsglobal.lti2.objects.Service_offered;
+import org.imsglobal.lti2.objects.ServiceOffered;
 import org.imsglobal.lti2.objects.StandardServices;
 import org.imsglobal.lti2.objects.ToolConsumer;
 import org.json.simple.JSONArray;
@@ -59,14 +59,14 @@ public class LTI2Util {
 			}
 			JSONArray tool_services = (JSONArray) security_contract.get(LTI2Constants.TOOL_SERVICE);
 
-			List<Service_offered> services_offered = consumer.getService_offered();
+			List<ServiceOffered> services_offered = consumer.getService_offered();
 
 			if ( tool_services != null ) for (Object o : tool_services) {
 				JSONObject tool_service = (JSONObject) o;
 				String json_service = (String) tool_service.get(LTI2Constants.SERVICE);
 
 				boolean found = false;
-				for (Service_offered service : services_offered ) {
+				for (ServiceOffered service : services_offered ) {
 					String service_endpoint = service.getEndpoint();
 					if ( service_endpoint.equals(json_service) ) {
 						found = true;

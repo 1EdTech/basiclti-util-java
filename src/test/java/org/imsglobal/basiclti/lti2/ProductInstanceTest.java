@@ -19,6 +19,8 @@ package org.imsglobal.basiclti.lti2;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.IOException;
+import junit.framework.Assert;
 import org.imsglobal.lti2.objects.ProductInstance;
 import org.imsglobal.lti2.objects.ToolConsumer;
 import org.junit.Test;
@@ -29,17 +31,42 @@ import org.junit.Test;
  */
 public class ProductInstanceTest {
     
-    public void printObject(Object o) throws JsonProcessingException{
+    
+    
+    public String getJson(Object o, Boolean prettyPrint) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        System.out.println(mapper.writeValueAsString(o));
+        if(prettyPrint){
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        }
+        return mapper.writeValueAsString(o);
+    }
+    
+    public <T> T toObject(String json, Class<T> claz) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, claz);
     }
     
     @Test
-    public void TestProfile() throws JsonProcessingException{
+    public void serializeProfile() throws JsonProcessingException{
         ProductInstance ppi = new ProductInstance(new TestLtiConsumerProfile());
-        ppi.setAdditionalProperties("test", "yolo");
-        printObject(ppi);
+        ppi.addAdditionalProperty("test", "yolo");
+        ppi.addAdditionalProperty("another_test", "swag");
+        System.out.println(getJson(ppi, true));
+    }
+    
+    @Test
+    public void deserializeProfile() throws JsonProcessingException, IOException{
+        ProductInstance ppi = new ProductInstance(new TestLtiConsumerProfile());
+        ppi.addAdditionalProperty("test", "yolo");
+        ppi.addAdditionalProperty("another_test", "swag");
+        
+        String json = getJson(ppi, false);
+        
+        ProductInstance pi = toObject(json, ProductInstance.class);
+        
+        Assert.assertEquals(1, pi.getGuid());
+        Assert.assertEquals("yolo", pi.getAdditionalProperties().get("test"));
+        Assert.assertEquals("swag", pi.getAdditionalProperties().get("another_test"));
     }
     
 }

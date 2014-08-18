@@ -3,13 +3,9 @@ package org.imsglobal.lti2.objects;
 import org.imsglobal.lti2.LTI2Config;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Collections;
 
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
@@ -23,7 +19,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
     "@type",
     "@id"
 })
-public class ToolConsumer {
+public class ToolConsumer extends BaseObject {
 
     @JsonProperty("@context")
     @com.fasterxml.jackson.annotation.JsonProperty("@context")
@@ -38,8 +34,7 @@ public class ToolConsumer {
     private String guid;
     private ProductInstance product_instance;
     private List<String> capability_offered = new ArrayList<String>();
-    private List<Service_offered> service_offered = new ArrayList<Service_offered>();
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private List<ServiceOffered> service_offered = new ArrayList<ServiceOffered>();
 
     public static final class StandardCapability {
         public static final String BASICLTI_LAUNCH = "basic-lti-launch-request";
@@ -118,24 +113,12 @@ public class ToolConsumer {
         this.capability_offered = capability_offered;
     }
 
-    public List<Service_offered> getService_offered() {
+    public List<ServiceOffered> getService_offered() {
         return service_offered;
     }
 
-    public void setService_offered(List<Service_offered> service_offered) {
+    public void setService_offered(List<ServiceOffered> service_offered) {
         this.service_offered = service_offered;
-    }
-
-    @JsonAnyGetter
-    @com.fasterxml.jackson.annotation.JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    @com.fasterxml.jackson.annotation.JsonAnySetter
-    public void setAdditionalProperties(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
     // Convienence method

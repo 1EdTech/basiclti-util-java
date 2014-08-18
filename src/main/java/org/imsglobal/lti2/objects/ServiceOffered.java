@@ -22,7 +22,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     "format",
     "action"
 })
-public class Service_offered {
+public class ServiceOffered {
 
     @JsonProperty("@type")
     private String _type;
@@ -36,9 +36,9 @@ public class Service_offered {
     private List<String> action = new ArrayList<String>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Service_offered() { }
+    public ServiceOffered() { }
 
-    public Service_offered(String endpoint, String id, String type, String format, String action) {
+    public ServiceOffered(String endpoint, String id, String type, String format, String action) {
         this.endpoint = endpoint;
         this._id = id;
         this._type = type;
@@ -46,7 +46,7 @@ public class Service_offered {
         this.action.add(action);
     }
 
-    public Service_offered(String endpoint, String id, String type, String[] format, String[] action) {
+    public ServiceOffered(String endpoint, String id, String type, String[] format, String[] action) {
         this.endpoint = endpoint;
         this._id = id;
         this._type = type;

@@ -29,6 +29,9 @@ public class Name {
         this.key = "product.vendor.name";
     }
 
+    public Name() {
+    }
+
     @JsonProperty("default_value")
     public String getDefault_value() {
         return default_value;

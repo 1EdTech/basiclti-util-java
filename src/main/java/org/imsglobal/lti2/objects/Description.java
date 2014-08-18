@@ -29,6 +29,9 @@ public class Description {
         this.key =  "product.vendor.description";
     }
 
+    public Description() {
+    }
+
     @JsonProperty("default_value")
     public String getDefault_value() {
         return default_value;

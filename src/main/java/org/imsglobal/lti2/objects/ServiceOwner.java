@@ -20,12 +20,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     "timestamp",
     "support"
 })
-public class Service_owner {
+public class ServiceOwner {
 
     @JsonProperty("@id")
     private String _id;
     @JsonProperty("service_owner_name")
-    private Service_owner_name service_owner_name;
+    private ServiceOwnerName service_owner_name;
     @JsonProperty("description")
     private Description description;
     @JsonProperty("timestamp")
@@ -34,11 +34,14 @@ public class Service_owner {
     private Support support;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Service_owner(LTI2Config cnf) {
+    public ServiceOwner(LTI2Config cnf) {
         this._id = cnf.getService_owner_id();
-        this.service_owner_name = new Service_owner_name(cnf.getService_owner_owner_name());
+        this.service_owner_name = new ServiceOwnerName(cnf.getService_owner_owner_name());
         this.description = new Description(cnf.getService_owner_description());
         this.support = new Support(cnf.getService_owner_support_email());
+    }
+
+    public ServiceOwner() {
     }
 
     @JsonProperty("@id")
@@ -52,12 +55,12 @@ public class Service_owner {
     }
 
     @JsonProperty("service_owner_name")
-    public Service_owner_name getService_owner_name() {
+    public ServiceOwnerName getService_owner_name() {
         return service_owner_name;
     }
 
     @JsonProperty("service_owner_name")
-    public void setService_name(Service_owner_name service_owner_name) {
+    public void setService_name(ServiceOwnerName service_owner_name) {
         this.service_owner_name = service_owner_name;
     }
 

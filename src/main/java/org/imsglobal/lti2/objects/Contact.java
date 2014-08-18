@@ -25,6 +25,9 @@ public class Contact {
         this.email = email;
     }
 
+    public Contact() {
+    }
+
     @JsonProperty("email")
     public String getEmail() {
         return email;

@@ -45,6 +45,10 @@ public class Vendor {
         this.website = cnf.getProduct_family_vendor_website();
         this.contact = new Contact(cnf.getProduct_family_vendor_contact());
     }
+
+    public Vendor() {
+    }
+    
     @JsonProperty("code")
     public String getCode() {
         return code;

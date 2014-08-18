@@ -16,13 +16,21 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     "default_value",
     "key"
 })
-public class Technical_description {
+public class ServiceOwnerName {
 
     @JsonProperty("default_value")
     private String default_value;
     @JsonProperty("key")
     private String key;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public ServiceOwnerName(String name) {
+        this.default_value = name;
+        this.key = "product.name";
+    }
+
+    public ServiceOwnerName() {
+    }
 
     @JsonProperty("default_value")
     public String getDefault_value() {

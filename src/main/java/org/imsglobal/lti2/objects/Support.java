@@ -25,6 +25,9 @@ public class Support {
         this.email = email;
     }
 
+    public Support() {
+    }
+
     @JsonProperty("email")
     public String getEmail() {
         return email;

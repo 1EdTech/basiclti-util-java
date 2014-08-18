@@ -18,7 +18,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     "code",
     "vendor"
 })
-public class Product_family {
+public class ProductFamily {
 
     @JsonProperty("code")
     private String code;
@@ -26,9 +26,12 @@ public class Product_family {
     private Vendor vendor;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Product_family(LTI2Config cnf) {
+    public ProductFamily(LTI2Config cnf) {
         this.code = cnf.getProduct_family_product_code();
         this.vendor = new Vendor(cnf);
+    }
+
+    public ProductFamily() {
     }
 
     @JsonProperty("code")
