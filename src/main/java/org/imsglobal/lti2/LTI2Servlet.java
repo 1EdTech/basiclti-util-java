@@ -322,7 +322,7 @@ public class LTI2Servlet extends HttpServlet {
 		// Load the configuration data
 		LTI2Config cnf = new org.imsglobal.lti2.LTI2ConfigSample();
 
-		ToolConsumer consumer = new ToolConsumer(profile_id+"", getServiceURL(request), cnf);
+		ToolConsumer consumer = new ToolConsumer(profile_id, "LTI-2p0", getServiceURL(request), cnf);
 
 		// Normally we would check permissions before we offer capabilities
 		List<String> capabilities = consumer.getCapability_offered();
