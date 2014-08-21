@@ -31,8 +31,6 @@ import org.junit.Test;
  */
 public class ProductInstanceTest {
     
-    
-    
     public String getJson(Object o, Boolean prettyPrint) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         if(prettyPrint){
@@ -64,7 +62,7 @@ public class ProductInstanceTest {
         
         ProductInstance pi = toObject(json, ProductInstance.class);
         
-        Assert.assertEquals(1, pi.getGuid());
+        Assert.assertEquals("1", pi.getGuid());
         Assert.assertEquals("yolo", pi.getAdditionalProperties().get("test"));
         Assert.assertEquals("swag", pi.getAdditionalProperties().get("another_test"));
     }

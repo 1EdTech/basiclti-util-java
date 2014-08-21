@@ -17,10 +17,13 @@
 package org.imsglobal.basiclti.lti2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.imsglobal.lti2.objects.ToolConsumer;
 import org.junit.Test;
+
+import java.io.IOException;
 
 /**
  *
@@ -30,13 +33,17 @@ public class ToolConsumerTest {
     
     
     @Test
-    public void TestProfile() throws JsonProcessingException{
+    public void TestProfile() throws IOException {
         TestLtiConsumerProfile config = new TestLtiConsumerProfile();
         ToolConsumer consumer = new ToolConsumer("guid", "LTI-2p0", "tcp?", config);
         consumer.addCapabilites(config.getCapabilities());
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        System.out.println(mapper.writeValueAsString(consumer));   
+        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        String json = mapper.writeValueAsString(consumer);
+        System.out.println(json);
+
+        ToolConsumer parsed = mapper.readValue(json, ToolConsumer.class);
     }
     
 }

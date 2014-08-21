@@ -104,27 +104,6 @@ public class ServiceOffered {
         this.action = action;
     }
 
-	// Convienence methods
-    public void setAction(String action) {
-		this.action = new ArrayList<String>();
-        this.action.add(action);
-    }
-
-    public void setAction(String [] actions) {
-		this.action = new ArrayList<String>();
-        Collections.addAll(this.action, actions);
-    }
-
-    public void setFormat(String format) {
-		this.format = new ArrayList<String>();
-        this.format.add(format);
-    }
-
-    public void setFormat(String [] format) {
-		this.format = new ArrayList<String>();
-        Collections.addAll(this.format, format);
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

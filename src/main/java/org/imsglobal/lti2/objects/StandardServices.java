@@ -1,6 +1,8 @@
 
 package org.imsglobal.lti2.objects;
 
+import java.util.Arrays;
+
 public class StandardServices {
 
     public static final String TOOLPROXY_FORMAT = "application/vnd.ims.lti.v2.toolproxy+json";
@@ -21,8 +23,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxy.collection");    // TODO: Is this right see 5.6 in the docs
 		ret.set_type("RestService");
-		ret.setFormat(TOOLPROXY_FORMAT);
-		ret.setAction("POST");
+		ret.setFormat(Arrays.asList(TOOLPROXY_FORMAT));
+		ret.setAction(Arrays.asList("POST"));
 		return ret;
     }
 
@@ -32,8 +34,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxy.item");
 		ret.set_type("RestService");
-		ret.setFormat(TOOLPROXY_FORMAT);
-		ret.setAction(new String[] {"GET", "PUT"});
+		ret.setFormat(Arrays.asList(TOOLPROXY_FORMAT));
+		ret.setAction(Arrays.asList("GET", "PUT"));
 		return ret;
     }
 
@@ -43,8 +45,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:Result.item");    // TODO: Is this right see 5.6 in the docs
 		ret.set_type("RestService");
-		ret.setFormat(RESULT_FORMAT);
-		ret.setAction(new String[] {"GET", "PUT"});
+		ret.setFormat(Arrays.asList(RESULT_FORMAT));
+		ret.setAction(Arrays.asList("GET", "PUT"));
 		return ret;
     }
 
@@ -54,8 +56,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:ToolProxySettings");    
 		ret.set_type("RestService");
-		ret.setFormat(new String[] {TOOLSETTINGS_FORMAT, TOOLSETTINGS_SIMPLE_FORMAT});
-		ret.setAction(new String[] {"GET", "PUT"});
+		ret.setFormat(Arrays.asList(TOOLSETTINGS_FORMAT, TOOLSETTINGS_SIMPLE_FORMAT));
+		ret.setAction(Arrays.asList("GET", "PUT"));
 		return ret;
     }
 
@@ -65,8 +67,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:LtiLinkSettings");    
 		ret.set_type("RestService");
-		ret.setFormat(new String[] {TOOLSETTINGS_FORMAT, TOOLSETTINGS_SIMPLE_FORMAT});
-		ret.setAction(new String[] {"GET", "PUT"});
+		ret.setFormat(Arrays.asList(TOOLSETTINGS_FORMAT, TOOLSETTINGS_SIMPLE_FORMAT));
+		ret.setAction(Arrays.asList("GET", "PUT"));
 		return ret;
     }
 
@@ -75,8 +77,8 @@ public class StandardServices {
 		ret.setEndpoint(endpoint);
 		ret.set_id("tcp:LTI_1_1_ResultService");
 		ret.set_type("RestService");
-		ret.setFormat("application/vnd.ims.lti.v1.outcome+xml");
-		ret.setAction("POST");
+		ret.setFormat(Arrays.asList("application/vnd.ims.lti.v1.outcome+xml"));
+		ret.setAction(Arrays.asList("POST"));
 		return ret;
     }
 

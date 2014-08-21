@@ -48,6 +48,8 @@ public class ToolConsumer extends BaseObject {
     public static String TYPE = "ToolConsumerProfile";
     public static String TC_PROFILE_CONTEXT = "http://purl.imsglobal.org/ctx/lti/v2/ToolConsumerProfile";
 
+    public ToolConsumer(){}
+
     // Constructor
     public ToolConsumer(String guid, String ltiVersion, String tcp, LTI2Config cnf) {
         this._context = TC_PROFILE_CONTEXT;
