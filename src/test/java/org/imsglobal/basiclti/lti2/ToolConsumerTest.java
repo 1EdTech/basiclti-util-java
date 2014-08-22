@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.imsglobal.lti2.objects.ToolConsumer;
+import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class ToolConsumerTest {
     public void TestProfile() throws IOException {
         TestLtiConsumerProfile config = new TestLtiConsumerProfile();
         ToolConsumer consumer = new ToolConsumer("guid", "LTI-2p0", "tcp?", config);
-        consumer.addCapabilites(config.getCapabilities());
+        //consumer.addCapabilites(config.getCapabilities());
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);

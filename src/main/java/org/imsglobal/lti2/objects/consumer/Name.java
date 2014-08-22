@@ -1,5 +1,5 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,29 +13,43 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
-    "email"
+    "default_value",
+    "key"
 })
-public class Contact {
+public class Name {
 
-    @JsonProperty("email")
-    private String email;
+    @JsonProperty("default_value")
+    private String default_value;
+    @JsonProperty("key")
+    private String key;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Contact(String email) {
-        this.email = email;
+    public Name(String name) {
+        this.default_value = name;
+        this.key = "product.vendor.name";
     }
 
-    public Contact() {
+    public Name() {
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    @JsonProperty("default_value")
+    public String getDefault_value() {
+        return default_value;
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
+    @JsonProperty("default_value")
+    public void setDefault_value(String default_value) {
+        this.default_value = default_value;
+    }
+
+    @JsonProperty("key")
+    public String getKey() {
+        return key;
+    }
+
+    @JsonProperty("key")
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @JsonAnyGetter

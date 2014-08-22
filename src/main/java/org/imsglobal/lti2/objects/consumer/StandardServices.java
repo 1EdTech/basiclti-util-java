@@ -1,5 +1,5 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import org.imsglobal.lti2.LTI2Config;
 
@@ -8,6 +8,7 @@ import java.util.Collections;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.imsglobal.lti2.objects.BaseJson;
 
 @JsonPropertyOrder({
     "@context",
@@ -19,7 +20,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
     "@type",
     "@id"
 })
-public class ToolConsumer extends BaseObject {
+public class ToolConsumer extends BaseJson {
 
     @JsonProperty("@context")
     @com.fasterxml.jackson.annotation.JsonProperty("@context")
@@ -36,7 +37,7 @@ public class ToolConsumer extends BaseObject {
     private List<String> capability_offered = new ArrayList<String>();
     private List<ServiceOffered> service_offered = new ArrayList<ServiceOffered>();
 
-    public static final class StandardCapability {
+    public static final class LtiCapability {
         public static final String BASICLTI_LAUNCH = "basic-lti-launch-request";
         public static final String USER_ID = "User.id";
         public static final String USER_IMAGE = "User.image";
@@ -124,8 +125,16 @@ public class ToolConsumer extends BaseObject {
     }
 
     // Convienence method
-    public void addCapabilites(String[] capabilities) {
-        Collections.addAll(this.capability_offered, capabilities);
+    public void addCapabilites(List<String> capabilities) {
+        this.capability_offered.addAll(capabilities);
+    }
+    
+    public void addServiceOffered(ServiceOffered service) {
+        this.service_offered.add(service);
+    }
+    
+    public void addAllServiceOffered(List<ServiceOffered> service) {
+        this.service_offered.addAll(service);
     }
 
 }

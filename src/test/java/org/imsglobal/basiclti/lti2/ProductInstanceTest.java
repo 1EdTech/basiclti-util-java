@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import junit.framework.Assert;
-import org.imsglobal.lti2.objects.ProductInstance;
-import org.imsglobal.lti2.objects.ToolConsumer;
+import org.imsglobal.lti2.objects.consumer.ProductInstance;
+import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 import org.junit.Test;
 
 /**

@@ -1,9 +1,10 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import org.imsglobal.lti2.LTI2Config;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.imsglobal.lti2.objects.BaseJson;
 
 @JsonPropertyOrder({
     "product_name",
@@ -12,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
     "technical_description",
     "product_family"
 })
-public class ProductInfo extends BaseObject {
+public class ProductInfo extends BaseJson {
 
     private ProductName product_name;
     private String product_version;

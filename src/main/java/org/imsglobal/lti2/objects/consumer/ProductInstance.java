@@ -1,16 +1,17 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import org.imsglobal.lti2.LTI2Config;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.imsglobal.lti2.objects.BaseJson;
 
 @JsonPropertyOrder({
     "guid",
     "product_info",
     "support"
 })
-public class ProductInstance extends BaseObject {
+public class ProductInstance extends BaseJson {
 
     private String guid;
     private ProductInfo product_info;

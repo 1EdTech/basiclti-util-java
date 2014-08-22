@@ -1,5 +1,7 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
+
+import org.imsglobal.lti2.LTI2Config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,43 +15,43 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
-    "default_value",
-    "key"
+    "code",
+    "vendor"
 })
-public class ServiceProviderName {
+public class ProductFamily {
 
-    @JsonProperty("default_value")
-    private String default_value;
-    @JsonProperty("key")
-    private String key;
+    @JsonProperty("code")
+    private String code;
+    @JsonProperty("vendor")
+    private Vendor vendor;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public ServiceProviderName(String name) {
-        this.default_value = name;
-        this.key = "product.name";
+    public ProductFamily(LTI2Config cnf) {
+        this.code = cnf.getProduct_family_product_code();
+        this.vendor = new Vendor(cnf);
     }
 
-    public ServiceProviderName() {
+    public ProductFamily() {
     }
 
-    @JsonProperty("default_value")
-    public String getDefault_value() {
-        return default_value;
+    @JsonProperty("code")
+    public String getCode() {
+        return code;
     }
 
-    @JsonProperty("default_value")
-    public void setDefault_value(String default_value) {
-        this.default_value = default_value;
+    @JsonProperty("code")
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    @JsonProperty("key")
-    public String getKey() {
-        return key;
+    @JsonProperty("vendor")
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    @JsonProperty("key")
-    public void setKey(String key) {
-        this.key = key;
+    @JsonProperty("vendor")
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
     @JsonAnyGetter

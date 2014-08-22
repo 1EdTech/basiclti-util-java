@@ -25,7 +25,7 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
  *
  * @author pgray
  */
-public class BaseObject {
+public class BaseJson {
     
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     

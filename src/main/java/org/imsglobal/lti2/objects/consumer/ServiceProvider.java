@@ -1,4 +1,5 @@
-package org.imsglobal.lti2.objects;
+
+package org.imsglobal.lti2.objects.consumer;
 
 import org.imsglobal.lti2.LTI2Config;
 
@@ -15,17 +16,17 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
     "@id",
-    "service_owner_name",
+    "service_provider_name",
     "description",
     "timestamp",
     "support"
 })
-public class ServiceOwner {
+public class ServiceProvider {
 
     @JsonProperty("@id")
     private String _id;
-    @JsonProperty("service_owner_name")
-    private ServiceOwnerName service_owner_name;
+    @JsonProperty("service_provider_name")
+    private ServiceProviderName service_provider_name;
     @JsonProperty("description")
     private Description description;
     @JsonProperty("timestamp")
@@ -34,14 +35,14 @@ public class ServiceOwner {
     private Support support;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public ServiceOwner(LTI2Config cnf) {
-        this._id = cnf.getService_owner_id();
-        this.service_owner_name = new ServiceOwnerName(cnf.getService_owner_owner_name());
-        this.description = new Description(cnf.getService_owner_description());
-        this.support = new Support(cnf.getService_owner_support_email());
+    public ServiceProvider(LTI2Config cnf) {
+        this._id = cnf.getService_provider_id();
+        this.service_provider_name = new ServiceProviderName(cnf.getService_provider_provider_name());
+        this.description = new Description(cnf.getService_provider_description());
+        this.support = new Support(cnf.getService_provider_support_email());
     }
 
-    public ServiceOwner() {
+    public ServiceProvider() {
     }
 
     @JsonProperty("@id")
@@ -54,14 +55,14 @@ public class ServiceOwner {
         this._id = _id;
     }
 
-    @JsonProperty("service_owner_name")
-    public ServiceOwnerName getService_owner_name() {
-        return service_owner_name;
+    @JsonProperty("service_provider_name")
+    public ServiceProviderName getService_provider_name() {
+        return service_provider_name;
     }
 
-    @JsonProperty("service_owner_name")
-    public void setService_name(ServiceOwnerName service_owner_name) {
-        this.service_owner_name = service_owner_name;
+    @JsonProperty("service_provider_name")
+    public void setService_name(ServiceProviderName service_provider_name) {
+        this.service_provider_name = service_provider_name;
     }
 
     @JsonProperty("description")

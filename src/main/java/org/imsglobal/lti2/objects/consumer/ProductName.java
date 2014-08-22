@@ -1,5 +1,5 @@
 
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     "default_value",
     "key"
 })
-public class Description {
+public class ProductName {
 
     @JsonProperty("default_value")
     private String default_value;
@@ -24,13 +24,14 @@ public class Description {
     private String key;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Description(String description) {
-        this.default_value = description;
-        this.key =  "product.vendor.description";
+    public ProductName(String name) {
+        this.default_value = name;
+        this.key = "product.name";
     }
 
-    public Description() {
+    public ProductName() {
     }
+    
 
     @JsonProperty("default_value")
     public String getDefault_value() {

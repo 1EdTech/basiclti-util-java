@@ -16,7 +16,7 @@
 package org.imsglobal.basiclti.lti2;
 
 import org.imsglobal.lti2.LTI2Config;
-import org.imsglobal.lti2.objects.ToolConsumer;
+import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 
 /**
  *
@@ -124,8 +124,8 @@ public class TestLtiConsumerProfile implements LTI2Config {
 
     public String[] getCapabilities() {
         String[] caps = {
-            ToolConsumer.StandardCapability.BASICLTI_LAUNCH,
-            ToolConsumer.StandardCapability.USER_ID
+            ToolConsumer.LtiCapability.BASICLTI_LAUNCH,
+            ToolConsumer.LtiCapability.USER_ID
         };
         return caps;
     }

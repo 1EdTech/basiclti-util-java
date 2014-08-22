@@ -30,9 +30,9 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.imsglobal.basiclti.BasicLTIUtil;
-import org.imsglobal.lti2.objects.ServiceOffered;
-import org.imsglobal.lti2.objects.StandardServices;
-import org.imsglobal.lti2.objects.ToolConsumer;
+import org.imsglobal.lti2.objects.consumer.ServiceOffered;
+import org.imsglobal.lti2.objects.consumer.StandardServices;
+import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;

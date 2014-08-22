@@ -1,5 +1,4 @@
-
-package org.imsglobal.lti2.objects;
+package org.imsglobal.lti2.objects.consumer;
 
 import org.imsglobal.lti2.LTI2Config;
 
@@ -15,58 +14,54 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
-    "code",
-    "vendor_name",
+    "@id",
+    "service_owner_name",
     "description",
-    "website",
     "timestamp",
-    "contact"
+    "support"
 })
-public class Vendor {
+public class ServiceOwner {
 
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("vendor_name")
-    private Name vendor_name;
+    @JsonProperty("@id")
+    private String _id;
+    @JsonProperty("service_owner_name")
+    private ServiceOwnerName service_owner_name;
     @JsonProperty("description")
     private Description description;
-    @JsonProperty("website")
-    private String website;
     @JsonProperty("timestamp")
     private String timestamp;
-    @JsonProperty("contact")
-    private Contact contact;
+    @JsonProperty("support")
+    private Support support;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Vendor(LTI2Config cnf) {
-        this.code = cnf.getProduct_family_vendor_code();
-        this.vendor_name = new Name(cnf.getProduct_family_vendor_name());
-        this.description = new Description(cnf.getProduct_family_vendor_description());
-        this.website = cnf.getProduct_family_vendor_website();
-        this.contact = new Contact(cnf.getProduct_family_vendor_contact());
+    public ServiceOwner(LTI2Config cnf) {
+        this._id = cnf.getService_owner_id();
+        this.service_owner_name = new ServiceOwnerName(cnf.getService_owner_owner_name());
+        this.description = new Description(cnf.getService_owner_description());
+        this.support = new Support(cnf.getService_owner_support_email());
     }
 
-    public Vendor() {
-    }
-    
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
+    public ServiceOwner() {
     }
 
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
+    @JsonProperty("@id")
+    public String get_id() {
+        return _id;
     }
 
-    @JsonProperty("vendor_name")
-    public Name getVendor_name() {
-        return vendor_name;
+    @JsonProperty("@id")
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    @JsonProperty("name")
-    public void setVendor_name(Name vendor_name) {
-        this.vendor_name = vendor_name;
+    @JsonProperty("service_owner_name")
+    public ServiceOwnerName getService_owner_name() {
+        return service_owner_name;
+    }
+
+    @JsonProperty("service_owner_name")
+    public void setService_name(ServiceOwnerName service_owner_name) {
+        this.service_owner_name = service_owner_name;
     }
 
     @JsonProperty("description")
@@ -79,16 +74,6 @@ public class Vendor {
         this.description = description;
     }
 
-    @JsonProperty("website")
-    public String getWebsite() {
-        return website;
-    }
-
-    @JsonProperty("website")
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
     @JsonProperty("timestamp")
     public String getTimestamp() {
         return timestamp;
@@ -99,14 +84,14 @@ public class Vendor {
         this.timestamp = timestamp;
     }
 
-    @JsonProperty("contact")
-    public Contact getContact() {
-        return contact;
+    @JsonProperty("support")
+    public Support getSupport() {
+        return support;
     }
 
-    @JsonProperty("contact")
-    public void setContact(Contact contact) {
-        this.contact = contact;
+    @JsonProperty("support")
+    public void setSupport(Support support) {
+        this.support = support;
     }
 
     @JsonAnyGetter
