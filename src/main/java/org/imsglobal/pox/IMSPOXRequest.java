@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.Map;
@@ -27,6 +29,7 @@ import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthException;
+import oauth.signpost.http.HttpParameters;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -174,7 +177,6 @@ public class IMSPOXRequest {
 	}
 
 	// Load but do not check the authentication
-	@SuppressWarnings("deprecation")
 	public void loadFromRequest(HttpServletRequest request) 
 	{
 		String contentType = request.getContentType();
@@ -184,7 +186,30 @@ public class IMSPOXRequest {
 			return;
 		}
 
-		header = request.getHeader("Authorization");
+		setAuthHeader(request.getHeader("Authorization"));
+		if ( oauth_body_hash == null ) {
+			errorMessage = "Did not find oauth_body_hash";
+			Log.info(errorMessage+"\n"+header);
+			return;
+		}
+
+		try {
+			Reader in = request.getReader();
+			postBody = readPostBody(in);
+		} catch(Exception e) {
+			errorMessage = "Could not read message body:"+e.getMessage();
+			return;
+		}
+
+		validatePostBody();
+		if (errorMessage != null) return;
+
+		parsePostBody();
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setAuthHeader(String header) {
+		this.header = header;
 		oauth_body_hash = null;
 		if ( header != null ) {
 			if (header.startsWith("OAuth ")) header = header.substring(5);
@@ -200,37 +225,33 @@ public class IMSPOXRequest {
 					oauth_consumer_key = URLDecoder.decode(pieces[1]);
 				}
 			}
-		}		
-
-		if ( oauth_body_hash == null ) {
-			errorMessage = "Did not find oauth_body_hash";
-			Log.info(errorMessage+"\n"+header);
-			return;
 		}
+	}
 
+	public static String readPostBody(Reader in) throws IOException {
 		// System.out.println("OBH="+oauth_body_hash);
 		final char[] buffer = new char[0x10000];
-		try {
-			StringBuilder out = new StringBuilder();
-			Reader in = request.getReader();
-			int read;
-			do {
-				read = in.read(buffer, 0, buffer.length);
-				if (read>0) {
-					out.append(buffer, 0, read);
-				}
-			} while (read>=0);
-			postBody = out.toString();
-		} catch(Exception e) {
-			errorMessage = "Could not read message body:"+e.getMessage();
-			return;
-		}
+		StringBuilder out = new StringBuilder();
+		int read;
+		do {
+			read = in.read(buffer, 0, buffer.length);
+			if (read > 0) {
+				out.append(buffer, 0, read);
+			}
+		} while (read >= 0);
+		return out.toString();
+	}
 
+	public static String getBodyHash(String postBody) throws GeneralSecurityException {
+		MessageDigest md = MessageDigest.getInstance("SHA1");
+		md.update(postBody.getBytes());
+		byte[] output = Base64.encodeBase64(md.digest());
+		return new String(output);
+	}
+
+	public void validatePostBody() {
 		try {
-			MessageDigest md = MessageDigest.getInstance("SHA1");
-			md.update(postBody.getBytes()); 
-			byte[] output = Base64.encodeBase64(md.digest());
-			String hash = new String(output);
+			String hash = getBodyHash(postBody);
 			// System.out.println("HASH="+hash);
 			if ( ! hash.equals(oauth_body_hash) ) {
 				errorMessage = "Body hash does not match header";
@@ -240,7 +261,6 @@ public class IMSPOXRequest {
 			errorMessage = "Could not compute body hash";
 			return;
 		}
-		parsePostBody();
 	}
 
 	public void parsePostBody()
@@ -516,15 +536,25 @@ public class IMSPOXRequest {
 	
 	static final String resultDataUrl = "<resultData><url>%s</url></resultData>";
 	
-	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score) throws IOException, OAuthException {
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score) throws IOException, OAuthException, GeneralSecurityException {
 		sendReplaceResult(url, key, secret, sourcedid, score, null);
 	}
-	
-	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData) throws IOException, OAuthException {
+
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData) throws IOException, OAuthException, GeneralSecurityException {
 		sendReplaceResult(url, key, secret, sourcedid, score, resultData, false);
 	}
-	 
-	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException {
+
+	public static void sendReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException, GeneralSecurityException {
+		HttpPost request = buildReplaceResult(url, key, secret, sourcedid, score, resultData, isUrl);
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(request);
+		if (response.getStatusLine().getStatusCode() >= 400) {
+			throw new HttpResponseException(response.getStatusLine().getStatusCode(),
+					response.getStatusLine().getReasonPhrase());
+		}
+	}
+
+	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException, GeneralSecurityException {
 		String dataXml = "";
 		if (resultData != null) {
 			String format = isUrl ? resultDataUrl : resultDataText;
@@ -532,17 +562,18 @@ public class IMSPOXRequest {
 		}
 		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(sourcedid),
 				StringEscapeUtils.escapeXml(score), dataXml);
-		
+
+		HttpParameters parameters = new HttpParameters();
+		String hash = getBodyHash(xml);
+		parameters.put("oauth_body_hash", URLEncoder.encode(hash, "UTF-8"));
+
 		CommonsHttpOAuthConsumer signer = new CommonsHttpOAuthConsumer(key, secret);
 		HttpPost request = new HttpPost(url);
 		request.setHeader("Content-Type", "application/xml");
 		request.setEntity(new StringEntity(xml, "UTF-8"));
+		signer.setAdditionalParameters(parameters);
 		signer.sign(request);
-		DefaultHttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(request);
-		if (response.getStatusLine().getStatusCode() >= 400) {
-			throw new HttpResponseException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
-		}
+		return request;
 	}
 
 	/*
