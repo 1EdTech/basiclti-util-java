@@ -7,6 +7,6 @@ import org.apache.http.HttpRequest;
  */
 public interface LtiSigner {
 
-    public HttpRequest sign(HttpRequest request);
+    public HttpRequest sign(HttpRequest request, String key, String secret) throws LtiSigningException;
 
 }
