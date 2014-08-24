@@ -16,6 +16,7 @@
 
 package org.imsglobal.lti2.objects.provider;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.lti2.objects.BaseJson;
 
 /**
@@ -23,7 +24,61 @@ import org.imsglobal.lti2.objects.BaseJson;
  * @author pgray
  */
 public class ToolProxy extends BaseJson {
-    
-    public static final String CONTENT_TYPE = "application/vnd.ims.lti.v2.toolproxy+json"; 
-    
+
+    @JsonProperty("@id")
+    @org.codehaus.jackson.annotate.JsonProperty("@id")
+    private String id;
+    @JsonProperty("@context")
+    @org.codehaus.jackson.annotate.JsonProperty("@context")
+    private String context;
+    @JsonProperty("@type")
+    @org.codehaus.jackson.annotate.JsonProperty("@type")
+    private String type;
+    private String tool_proxy_guid;
+    private String custom_url;
+
+    public static final String CONTENT_TYPE = "application/vnd.ims.lti.v2.toolproxy+json";
+
+    public ToolProxy(){
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTool_proxy_guid() {
+        return tool_proxy_guid;
+    }
+
+    public void setTool_proxy_guid(String tool_proxy_guid) {
+        this.tool_proxy_guid = tool_proxy_guid;
+    }
+
+    public String getCustom_url() {
+        return custom_url;
+    }
+
+    public void setCustom_url(String custom_url) {
+        this.custom_url = custom_url;
+    }
 }
