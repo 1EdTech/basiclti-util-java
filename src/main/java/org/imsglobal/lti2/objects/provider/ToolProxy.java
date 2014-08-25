@@ -38,8 +38,17 @@ public class ToolProxy extends BaseJson {
     private String custom_url;
 
     public static final String CONTENT_TYPE = "application/vnd.ims.lti.v2.toolproxy+json";
+    public static final String CONTEXT_URL = "http://purl.imsglobal.org/ctx/lti/v2/ToolProxyId";
 
     public ToolProxy(){
+    }
+
+    public ToolProxy(String id, String type, String tool_proxy_guid, String custom_url) {
+        this.id = id;
+        this.type = type;
+        this.tool_proxy_guid = tool_proxy_guid;
+        this.custom_url = custom_url;
+        this.context = CONTEXT_URL;
     }
 
     public String getId() {
