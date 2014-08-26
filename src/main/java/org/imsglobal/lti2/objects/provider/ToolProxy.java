@@ -16,29 +16,26 @@
 
 package org.imsglobal.lti2.objects.provider;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.lti2.objects.BaseJson;
+import org.codehaus.jackson.JsonNode;
+import org.imsglobal.lti2.objects.BaseJsonLd;
 
 /**
  *
  * @author pgray
  */
-public class ToolProxy extends BaseJson {
+public class ToolProxy extends BaseJsonLd {
 
-    @JsonProperty("@id")
-    @org.codehaus.jackson.annotate.JsonProperty("@id")
-    private String id;
-    @JsonProperty("@context")
-    @org.codehaus.jackson.annotate.JsonProperty("@context")
-    private String context;
-    @JsonProperty("@type")
-    @org.codehaus.jackson.annotate.JsonProperty("@type")
-    private String type;
     private String tool_proxy_guid;
     private String custom_url;
+    private String lti_version;
+    private String tool_consumer_profile;
+    private ToolProfile tool_profile;
+    private Object custom;
+    private SecurityContract security_contract;
 
     public static final String CONTENT_TYPE = "application/vnd.ims.lti.v2.toolproxy+json";
     public static final String CONTEXT_URL = "http://purl.imsglobal.org/ctx/lti/v2/ToolProxyId";
+    public static final String TYPE = "http://purl.imsglobal.org/ctx/lti/v2/ToolProxyId";
 
     public ToolProxy(){
     }
@@ -49,30 +46,6 @@ public class ToolProxy extends BaseJson {
         this.tool_proxy_guid = tool_proxy_guid;
         this.custom_url = custom_url;
         this.context = CONTEXT_URL;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getTool_proxy_guid() {
@@ -90,4 +63,45 @@ public class ToolProxy extends BaseJson {
     public void setCustom_url(String custom_url) {
         this.custom_url = custom_url;
     }
+
+    public String getLti_version() {
+        return lti_version;
+    }
+
+    public void setLti_version(String lti_version) {
+        this.lti_version = lti_version;
+    }
+
+    public String getTool_consumer_profile() {
+        return tool_consumer_profile;
+    }
+
+    public void setTool_consumer_profile(String tool_consumer_profile) {
+        this.tool_consumer_profile = tool_consumer_profile;
+    }
+
+    public ToolProfile getTool_profile() {
+        return tool_profile;
+    }
+
+    public void setTool_profile(ToolProfile tool_profile) {
+        this.tool_profile = tool_profile;
+    }
+
+    public Object getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Object custom) {
+        this.custom = custom;
+    }
+
+    public SecurityContract getSecurity_contract() {
+        return security_contract;
+    }
+
+    public void setSecurity_contract(SecurityContract security_contract) {
+        this.security_contract = security_contract;
+    }
+    
 }
