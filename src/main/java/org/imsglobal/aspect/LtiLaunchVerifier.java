@@ -41,7 +41,6 @@ public class LtiLaunchVerifier {
             throw new IllegalStateException(getErrorMessageForArgumentClass("HttpServletRequest", pjp.getSignature().toLongString()));
         }
 
-        System.out.println("checking lti params...");
         String oauthSecret = keyService.getSecretForKey(request.getParameter("oauth_consumer_key"));
         LtiVerificationResult ltiResult = BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);
 
