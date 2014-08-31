@@ -42,6 +42,6 @@ public interface LtiSigner {
      * @return a map of signed parameters (including the signature)
      * @throws LtiSigningException
      */
-    public HttpRequest signParameters(Map<String, String> parameters, String key, String secret) throws LtiSigningException;
+    public Map<String, String> signParameters(Map<String, String> parameters, String key, String secret, String url, String method) throws LtiSigningException;
 
 }

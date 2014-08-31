@@ -3,6 +3,7 @@ package org.imsglobal.basiclti;
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by paul on 5/28/14.
@@ -17,6 +18,16 @@ public class LtiUser {
         this.roles = new LinkedList<>();
         if(request.getParameter("roles") != null) {
             for (String role : request.getParameter("roles").split(",")) {
+                this.roles.add(role.trim());
+            }
+        }
+    }
+
+    public LtiUser(Map<String, String> parameters) {
+        this.id = parameters.get("user_id");
+        this.roles = new LinkedList<>();
+        if(parameters.get("roles") != null) {
+            for (String role : parameters.get("roles").split(",")) {
                 this.roles.add(role.trim());
             }
         }

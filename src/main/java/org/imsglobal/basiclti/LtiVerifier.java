@@ -32,13 +32,15 @@ public interface LtiVerifier {
      * This method will verify a list of properties (mapped
      * by key & value).
      * @param parameters the parameters that will be verified. mapped by key & value
-     * @param secret the secret to verify the properties with
+     * @param url the url this request was made at
+     * @param method the method this url was requested with
+     * @param secret the secret to verify the propertihes with
      * @return an LtiVerificationResult which will
      * contain information about the request (whether or
      * not it is valid, and if it is valid, contextual
      * information about the request).
      * @throws LtiVerificationException
      */
-    public LtiVerificationResult verifyParameters(Map<String, String> parameters, String secret) throws LtiVerificationException;
+    public LtiVerificationResult verifyParameters(Map<String, String> parameters, String url, String method, String secret) throws LtiVerificationException;
 
 }

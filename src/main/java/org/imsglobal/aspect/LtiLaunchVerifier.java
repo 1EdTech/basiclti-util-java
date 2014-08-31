@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.imsglobal.basiclti.BasicLTIUtil;
 import org.imsglobal.basiclti.LtiVerificationResult;
+import org.imsglobal.basiclti.LtiVerifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,11 @@ public class LtiLaunchVerifier {
 
     public LtiKeySecretService keyService;
 
-    public LtiLaunchVerifier(LtiKeySecretService ltiKeySecretService) {
-        this.keyService = ltiKeySecretService;
+    public LtiVerifier ltiVerifier;
+
+    public LtiLaunchVerifier(LtiKeySecretService keyService, LtiVerifier ltiVerifier) {
+        this.keyService = keyService;
+        this.ltiVerifier = ltiVerifier;
     }
 
     //@Around("@annotation(launch) && execution(* *(javax.servlet.http.HttpServletRequest+, org.imsglobal.basiclti.LtiVerificationResult, ..)) && args(request, result)")
@@ -42,7 +46,7 @@ public class LtiLaunchVerifier {
         }
 
         String oauthSecret = keyService.getSecretForKey(request.getParameter("oauth_consumer_key"));
-        LtiVerificationResult ltiResult = BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);
+        LtiVerificationResult ltiResult = ltiVerifier.verify(request, oauthSecret);//BasicLTIUtil.validateMessage(request, request.getRequestURL().toString(), oauthSecret);
 
         Boolean ltiVerificationResultExists = false;
         //This array will hold the arguments to the join point, so we can pass them along to the advised function.
