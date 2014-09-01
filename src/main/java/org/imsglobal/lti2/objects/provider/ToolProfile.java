@@ -17,6 +17,8 @@ package org.imsglobal.lti2.objects.provider;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Map;
+
 import org.imsglobal.lti2.objects.consumer.ProductInstance;
 import org.imsglobal.lti2.objects.consumer.ServiceOffered;
 
@@ -30,7 +32,7 @@ public class ToolProfile {
     @org.codehaus.jackson.annotate.JsonProperty("@id")
     private String id;
     private String lti_version;
-    private String base_url_choice;
+    private List<Map<String, String>> base_url_choice;
     private ProductInstance product_instance;
     private List<Object> resource_handler;
     private List<Object> message;
@@ -38,7 +40,7 @@ public class ToolProfile {
     public ToolProfile() {
     }
 
-    public ToolProfile(String id, String lti_version, String base_url_choice, ProductInstance product_instance, List<Object> resource_handler, List<Object> message) {
+    public ToolProfile(String id, String lti_version, List<Map<String, String>> base_url_choice, ProductInstance product_instance, List<Object> resource_handler, List<Object> message) {
         this.id = id;
         this.lti_version = lti_version;
         this.base_url_choice = base_url_choice;
@@ -63,11 +65,11 @@ public class ToolProfile {
         this.lti_version = lti_version;
     }
 
-    public String getBase_url_choice() {
+    public List<Map<String, String>> getBase_url_choice() {
         return base_url_choice;
     }
 
-    public void setBase_url_choice(String base_url_choice) {
+    public void setBase_url_choice(List<Map<String, String>> base_url_choice) {
         this.base_url_choice = base_url_choice;
     }
 
