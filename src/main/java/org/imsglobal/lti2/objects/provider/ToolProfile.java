@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.imsglobal.lti2.objects.consumer.ProductInstance;
-import org.imsglobal.lti2.objects.consumer.ServiceOffered;
 
 /**
  *
@@ -32,15 +32,15 @@ public class ToolProfile {
     @org.codehaus.jackson.annotate.JsonProperty("@id")
     private String id;
     private String lti_version;
-    private List<Map<String, String>> base_url_choice;
+    private JsonNode base_url_choice;
     private ProductInstance product_instance;
-    private List<Object> resource_handler;
-    private List<Object> message;
+    private JsonNode resource_handler;
+    private JsonNode message;
 
     public ToolProfile() {
     }
 
-    public ToolProfile(String id, String lti_version, List<Map<String, String>> base_url_choice, ProductInstance product_instance, List<Object> resource_handler, List<Object> message) {
+    public ToolProfile(String id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, JsonNode resource_handler, JsonNode message) {
         this.id = id;
         this.lti_version = lti_version;
         this.base_url_choice = base_url_choice;
@@ -65,14 +65,6 @@ public class ToolProfile {
         this.lti_version = lti_version;
     }
 
-    public List<Map<String, String>> getBase_url_choice() {
-        return base_url_choice;
-    }
-
-    public void setBase_url_choice(List<Map<String, String>> base_url_choice) {
-        this.base_url_choice = base_url_choice;
-    }
-
     public ProductInstance getProduct_instance() {
         return product_instance;
     }
@@ -81,19 +73,27 @@ public class ToolProfile {
         this.product_instance = product_instance;
     }
 
-    public List<Object> getResource_handler() {
+    public JsonNode getBase_url_choice() {
+        return base_url_choice;
+    }
+
+    public void setBase_url_choice(JsonNode base_url_choice) {
+        this.base_url_choice = base_url_choice;
+    }
+
+    public JsonNode getResource_handler() {
         return resource_handler;
     }
 
-    public void setResource_handler(List<Object> resource_handler) {
+    public void setResource_handler(JsonNode resource_handler) {
         this.resource_handler = resource_handler;
     }
 
-    public List<Object> getMessage() {
+    public JsonNode getMessage() {
         return message;
     }
 
-    public void setMessage(List<Object> message) {
+    public void setMessage(JsonNode message) {
         this.message = message;
     }
 
