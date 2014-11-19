@@ -7,7 +7,7 @@
     <url>https://github.com/IMSGlobal/basiclti-util-java</url>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <organization>
         <name>IMS Global Learning Consortium</name>
         <url>www.imsglobal.org/</url>
@@ -15,31 +15,44 @@
     <inceptionYear>2009</inceptionYear>
     <packaging>jar</packaging>
     <licenses>
-      <license>
-        <name>The Apache Software License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      </license>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
     </licenses>
     <developers>
-      <developer>
-        <name>Charles Severance</name>
-        <email>csev@umich.edu</email>
-        <organization>University of Michigan</organization>
-        <organizationUrl>https://www.si.umich.edu/</organizationUrl>
-      </developer>
-      <developer>
-        <name>Paul Gray</name>
-        <email>pfbgray@gmail.com</email>
-        <organization>Learning Objects</organization>
-        <organizationUrl>http://www.learningobjects.com/</organizationUrl>
-      </developer>
-      <developer>
-        <name>Braden Anderson</name>
-        <email>braden@instructure.com</email>
-        <organization>Instructure</organization>
-        <organizationUrl>http://www.instructure.com/</organizationUrl>
-      </developer>
+        <developer>
+            <name>Charles Severance</name>
+            <email>csev@umich.edu</email>
+            <organization>University of Michigan</organization>
+            <organizationUrl>https://www.si.umich.edu/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Paul Gray</name>
+            <email>pfbgray@gmail.com</email>
+            <organization>Learning Objects</organization>
+            <organizationUrl>http://www.learningobjects.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Braden Anderson</name>
+            <email>braden@instructure.com</email>
+            <organization>Instructure</organization>
+            <organizationUrl>http://www.instructure.com/</organizationUrl>
+        </developer>
     </developers>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <scm>
       <connection>scm:git:git@github.com:IMSGlobal/basiclti-util-java.git</connection>
       <developerConnection>scm:git:git@github.com:IMSGlobal/basiclti-util-java.git</developerConnection>
@@ -69,7 +82,13 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.8.5</version>
+            <version>1.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.3</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -87,14 +106,29 @@
             <version>4.0.1</version>
         </dependency>
         <dependency>
-          <groupId>oauth.signpost</groupId>
-          <artifactId>signpost-core</artifactId>
-          <version>1.2.1.2</version>
+            <groupId>oauth.signpost</groupId>
+            <artifactId>signpost-core</artifactId>
+            <version>1.2.1.2</version>
         </dependency>
         <dependency>
-          <groupId>oauth.signpost</groupId>
-          <artifactId>signpost-commonshttp4</artifactId>
-          <version>1.2.1.2</version>
+            <groupId>oauth.signpost</groupId>
+            <artifactId>signpost-commonshttp4</artifactId>
+            <version>1.2.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -125,6 +159,13 @@
             <artifactId>powermock-api-mockito</artifactId>
             <version>${powermock.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

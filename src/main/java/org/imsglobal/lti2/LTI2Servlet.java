@@ -37,13 +37,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
-import org.imsglobal.basiclti.BasicLTIConstants;
-import org.imsglobal.basiclti.BasicLTIUtil;
-import org.imsglobal.basiclti.LtiVerificationResult;
+import org.imsglobal.lti.BasicLTIConstants;
+import org.imsglobal.lti.BasicLTIUtil;
+import org.imsglobal.lti.launch.LtiVerificationResult;
 import org.imsglobal.json.IMSJSONRequest;
-import org.imsglobal.lti2.objects.Service_offered;
-import org.imsglobal.lti2.objects.StandardServices;
-import org.imsglobal.lti2.objects.ToolConsumer;
+import org.imsglobal.lti2.objects.consumer.ServiceOffered;
+import org.imsglobal.lti2.objects.consumer.StandardServices;
+import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -82,10 +82,10 @@ public class LTI2Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Log M_log = LogFactory.getLog(LTI2Servlet.class);
 
-	protected Service_offered LTI2ResultItem = null;
-	protected Service_offered LTI2LtiLinkSettings = null;
-	protected Service_offered LTI2ToolProxyBindingSettings = null;
-	protected Service_offered LTI2ToolProxySettings = null;
+	protected ServiceOffered LTI2ResultItem = null;
+	protected ServiceOffered LTI2LtiLinkSettings = null;
+	protected ServiceOffered LTI2ToolProxyBindingSettings = null;
+	protected ServiceOffered LTI2ToolProxySettings = null;
 
 	private static final String SVC_tc_profile = "tc_profile";
 	private static final String SVC_tc_registration = "tc_registration";
@@ -322,7 +322,7 @@ public class LTI2Servlet extends HttpServlet {
 		// Load the configuration data
 		LTI2Config cnf = new org.imsglobal.lti2.LTI2ConfigSample();
 
-		ToolConsumer consumer = new ToolConsumer(profile_id+"", getServiceURL(request), cnf);
+		ToolConsumer consumer = new ToolConsumer(profile_id, "LTI-2p0", getServiceURL(request), cnf);
 
 		// Normally we would check permissions before we offer capabilities
 		List<String> capabilities = consumer.getCapability_offered();
@@ -332,7 +332,7 @@ public class LTI2Servlet extends HttpServlet {
 		LTI2Util.allowResult(capabilities);
 
 		// Normally we would check permissions before we offer services
-		List<Service_offered> services = consumer.getService_offered();
+		List<ServiceOffered> services = consumer.getService_offered();
 		services.add(StandardServices.LTI2Registration(getServiceURL(request) + 
 			SVC_tc_registration + "/" + profile_id));
 		services.add(StandardServices.LTI2ResultItem(getServiceURL(request) + 
