@@ -1,4 +1,4 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;

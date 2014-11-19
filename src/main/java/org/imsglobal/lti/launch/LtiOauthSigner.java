@@ -1,4 +1,4 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthConsumer;
@@ -13,10 +13,7 @@ import org.apache.http.HttpRequest;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static org.imsglobal.basiclti.BasicLTIConstants.*;
 
 /**
  * This class <b>signs</b> LTI requests according to the Oauth 1.0 spec

@@ -1,6 +1,5 @@
-package org.imsglobal.basiclti.pox;
+package org.imsglobal.lti.pox;
 
-import org.imsglobal.basiclti.XMLMap;
 import org.imsglobal.pox.IMSPOXRequest;
 import org.junit.Assert;
 import org.junit.Before;

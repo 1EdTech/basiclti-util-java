@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.imsglobal.basiclti.BasicLTIUtil;
-import org.imsglobal.basiclti.LtiVerificationResult;
-import org.imsglobal.basiclti.LtiVerifier;
+import org.imsglobal.lti.launch.LtiVerificationResult;
+import org.imsglobal.lti.launch.LtiVerifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class LtiLaunchVerifier {
         this.ltiVerifier = ltiVerifier;
     }
 
-    //@Around("@annotation(launch) && execution(* *(javax.servlet.http.HttpServletRequest+, org.imsglobal.basiclti.LtiVerificationResult, ..)) && args(request, result)")
     @Around("@annotation(launch)")
     public Object verifyLtiLaunch(ProceedingJoinPoint pjp, Lti launch) throws Throwable {
         HttpServletRequest request = null;

@@ -1,4 +1,4 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,6 +9,8 @@ import net.oauth.OAuthMessage;
 import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
+import org.imsglobal.lti.launch.LtiError;
+import org.imsglobal.lti.launch.LtiVerificationResult;
 import org.junit.Assert;
 import static org.junit.Assert.*;
 
@@ -121,7 +123,7 @@ public class BasicLTIUtilTest {
         PowerMockito.mockStatic(OAuthSignatureMethod.class);
         PowerMockito.when(OAuthSignatureMethod.getBaseString(Matchers.any(OAuthMessage.class))).thenReturn("");
 
-        LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");        
+        LtiVerificationResult result = BasicLTIUtil.validateMessage(Mockito.mock(HttpServletRequest.class), "https://example.com/lti-launch", "secret");
 
         Assert.assertEquals(LtiError.BAD_REQUEST, result.getError());
         Assert.assertEquals(Boolean.FALSE, result.getSuccess());

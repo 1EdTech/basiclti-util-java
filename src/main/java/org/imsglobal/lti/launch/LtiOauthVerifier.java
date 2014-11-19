@@ -1,15 +1,11 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
 import net.oauth.*;
 import net.oauth.server.OAuthServlet;
-import net.oauth.signature.OAuthSignatureMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -53,6 +49,15 @@ public class LtiOauthVerifier implements LtiVerifier {
         return new LtiVerificationResult(true, new LtiLaunch(request));
     }
 
+    /**
+     * This method will verify a collection of parameters
+     * @param parameters the parameters that will be verified. mapped by key & value
+     * @param url the url this request was made at
+     * @param method the method this url was requested with
+     * @param secret the secret to verify the propertihes with
+     * @return
+     * @throws LtiVerificationException
+     */
     @Override
     public LtiVerificationResult verifyParameters(Map<String, String> parameters, String url, String method, String secret) throws LtiVerificationException {
         OAuthMessage oam = new OAuthMessage(method, url, parameters.entrySet());

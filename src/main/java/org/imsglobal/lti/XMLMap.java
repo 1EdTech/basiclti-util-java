@@ -1,5 +1,5 @@
 /**********************************************************************************
- * $URL: https://source.sakaiproject.org/svn/basiclti/trunk/basiclti-util/src/java/org/imsglobal/basiclti/XMLMap.java $
+ * $URL: https://source.sakaiproject.org/svn/lti/trunk/lti-util/src/java/org/imsglobal/lti/XMLMap.java $
  * $Id: XMLMap.java 308965 2014-04-29 06:37:09Z csev@umich.edu $
  **********************************************************************************
  *
@@ -19,7 +19,7 @@
  *
  **********************************************************************************/
 
-package org.imsglobal.basiclti;
+package org.imsglobal.lti;
 
 /* 
  * This is a little project I call mdom.org which stands for "Map-Dom" or "XML Doms in Maps" 

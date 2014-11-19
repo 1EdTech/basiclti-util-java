@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.imsglobal.basiclti.lti2;
+package org.imsglobal.lti.lti2;
 
 import org.imsglobal.lti2.LTI2Config;
 import org.imsglobal.lti2.objects.consumer.ToolConsumer;

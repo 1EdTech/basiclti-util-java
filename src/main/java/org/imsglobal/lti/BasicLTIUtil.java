@@ -16,18 +16,18 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.imsglobal.basiclti;
+package org.imsglobal.lti;
 
-import static org.imsglobal.basiclti.BasicLTIConstants.CUSTOM_PREFIX;
-import static org.imsglobal.basiclti.BasicLTIConstants.EXTENSION_PREFIX;
-import static org.imsglobal.basiclti.BasicLTIConstants.LTI_MESSAGE_TYPE;
-import static org.imsglobal.basiclti.BasicLTIConstants.LTI_VERSION;
-import static org.imsglobal.basiclti.BasicLTIConstants.OAUTH_PREFIX;
-import static org.imsglobal.basiclti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_CONTACT_EMAIL;
-import static org.imsglobal.basiclti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_DESCRIPTION;
-import static org.imsglobal.basiclti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_GUID;
-import static org.imsglobal.basiclti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_NAME;
-import static org.imsglobal.basiclti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_URL;
+import static org.imsglobal.lti.BasicLTIConstants.CUSTOM_PREFIX;
+import static org.imsglobal.lti.BasicLTIConstants.EXTENSION_PREFIX;
+import static org.imsglobal.lti.BasicLTIConstants.LTI_MESSAGE_TYPE;
+import static org.imsglobal.lti.BasicLTIConstants.LTI_VERSION;
+import static org.imsglobal.lti.BasicLTIConstants.OAUTH_PREFIX;
+import static org.imsglobal.lti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_CONTACT_EMAIL;
+import static org.imsglobal.lti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_DESCRIPTION;
+import static org.imsglobal.lti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_GUID;
+import static org.imsglobal.lti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_NAME;
+import static org.imsglobal.lti.BasicLTIConstants.TOOL_CONSUMER_INSTANCE_URL;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -51,6 +51,9 @@ import net.oauth.SimpleOAuthValidator;
 import net.oauth.server.OAuthServlet;
 import net.oauth.signature.OAuthSignatureMethod;
 import org.apache.commons.lang3.StringUtils;
+import org.imsglobal.lti.launch.LtiError;
+import org.imsglobal.lti.launch.LtiLaunch;
+import org.imsglobal.lti.launch.LtiVerificationResult;
 
 /* Leave out until we have JTidy 0.8 in the repository 
  import org.w3c.tidy.Tidy;
@@ -73,8 +76,8 @@ import org.apache.commons.lang3.StringUtils;
  *   &lt;extensions&nbsp;platform=&quot;www.lms.com&quot;&gt;
  *	 &lt;parameter&nbsp;key=&quot;keyname&quot;&gt;value&lt;/parameter&gt;
  *   &lt;/extensions&gt;
- *   &lt;launch_url&gt;url&nbsp;to&nbsp;the&nbsp;basiclti&nbsp;launch&nbsp;URL&lt;/launch_url&gt;
- *   &lt;secure_launch_url&gt;url&nbsp;to&nbsp;the&nbsp;basiclti&nbsp;launch&nbsp;URL&lt;/secure_launch_url&gt;
+ *   &lt;launch_url&gt;url&nbsp;to&nbsp;the&nbsp;lti&nbsp;launch&nbsp;URL&lt;/launch_url&gt;
+ *   &lt;secure_launch_url&gt;url&nbsp;to&nbsp;the&nbsp;lti&nbsp;launch&nbsp;URL&lt;/secure_launch_url&gt;
  *   &lt;icon&gt;url&nbsp;to&nbsp;an&nbsp;icon&nbsp;for&nbsp;this&nbsp;tool&nbsp;(optional)&lt;/icon&gt;
  *   &lt;secure_icon&gt;url&nbsp;to&nbsp;an&nbsp;icon&nbsp;for&nbsp;this&nbsp;tool&nbsp;(optional)&lt;/secure_icon&gt;
  *   &lt;cartridge_icon&nbsp;identifierref=&quot;BLTI001_Icon&quot;/&gt;

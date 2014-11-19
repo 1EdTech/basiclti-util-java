@@ -1,4 +1,4 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
 /**
  * Created by paul on 5/28/14.

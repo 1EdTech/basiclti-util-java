@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.imsglobal.basiclti.lti2;
+package org.imsglobal.lti.lti2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.imsglobal.lti2.objects.consumer.ProductInstance;
-import org.imsglobal.lti2.objects.consumer.ToolConsumer;
 import org.junit.Test;
 
 /**

@@ -1,4 +1,4 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
 import org.apache.http.HttpRequest;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 public interface LtiSigner {
 
     /**
-     * This method will return a *signed* HttpRequest object.
+     * This method will return a <b>signed</b> HttpRequest object.
      * Once returned, adding new parameters or changing the
      * body will invalidate the signature. This method should
      * be used for server to server connection requests.
@@ -29,9 +29,9 @@ public interface LtiSigner {
     public HttpRequest sign(HttpRequest request, String key, String secret) throws LtiSigningException;
 
     /**
-     * This method will return a list of *signed*
+     * This method will return a list of <b>signed</b> parameters.
      * Once returned, adding new parameters or changing the
-     * body will invalidate the signature. This method may
+     * body will invalidate the signature. This method will
      * overwrite reserved parameters from the underlying
      * specification. For example, if you are using the Oauth
      * implementation, <b>oauth_signature</b> will be removed

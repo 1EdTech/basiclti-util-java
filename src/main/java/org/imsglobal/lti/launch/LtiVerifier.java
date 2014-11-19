@@ -1,7 +1,5 @@
-package org.imsglobal.basiclti;
+package org.imsglobal.lti.launch;
 
-
-import org.apache.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;

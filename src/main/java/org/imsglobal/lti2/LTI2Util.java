@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.imsglobal.basiclti.BasicLTIUtil;
+import org.imsglobal.lti.BasicLTIUtil;
 import org.imsglobal.lti2.objects.consumer.ServiceOffered;
 import org.imsglobal.lti2.objects.consumer.StandardServices;
 import org.imsglobal.lti2.objects.consumer.ToolConsumer;
