@@ -30,31 +30,26 @@ public class ToolProfile {
 
     @JsonProperty("@id")
     @org.codehaus.jackson.annotate.JsonProperty("@id")
-    private String id;
+    private String _id;
+    @org.codehaus.jackson.annotate.JsonProperty("@type")
+    @com.fasterxml.jackson.annotation.JsonProperty("@type")
+    private String _type;
     private String lti_version;
     private JsonNode base_url_choice;
     private ProductInstance product_instance;
-    private JsonNode resource_handler;
-    private JsonNode message;
+    private List<ResourceHandler> resource_handler;
+    private List<Message> message;
 
     public ToolProfile() {
     }
 
-    public ToolProfile(String id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, JsonNode resource_handler, JsonNode message) {
-        this.id = id;
+    public ToolProfile(String _type, String _id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, List<ResourceHandler> resource_handler, List<Message> message) {
+        this._id = _id;
         this.lti_version = lti_version;
         this.base_url_choice = base_url_choice;
         this.product_instance = product_instance;
         this.resource_handler = resource_handler;
         this.message = message;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLti_version() {
@@ -81,20 +76,35 @@ public class ToolProfile {
         this.base_url_choice = base_url_choice;
     }
 
-    public JsonNode getResource_handler() {
+    public List<ResourceHandler> getResource_handler() {
         return resource_handler;
     }
 
-    public void setResource_handler(JsonNode resource_handler) {
+    public void setResource_handler(List<ResourceHandler> resource_handler) {
         this.resource_handler = resource_handler;
     }
 
-    public JsonNode getMessage() {
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public List<Message> getMessage() {
         return message;
     }
 
-    public void setMessage(JsonNode message) {
+    public void setMessage(List<Message> message) {
         this.message = message;
     }
 
+    public String get_type() {
+        return _type;
+    }
+
+    public void set_type(String _type) {
+        this._type = _type;
+    }
 }
