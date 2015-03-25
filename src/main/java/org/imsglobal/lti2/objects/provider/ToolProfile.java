@@ -44,6 +44,8 @@ public class ToolProfile {
     }
 
     public ToolProfile(String _type, String _id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, List<ResourceHandler> resource_handler, List<Message> message) {
+         
+        this._type = _type;
         this._id = _id;
         this.lti_version = lti_version;
         this.base_url_choice = base_url_choice;
