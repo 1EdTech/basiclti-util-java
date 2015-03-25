@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by U0155811 on 3/25/2015.
+ * Test ToolProfile
  */
 public class ToolProfileTest {
     String testToolProfile = "{\n" +
