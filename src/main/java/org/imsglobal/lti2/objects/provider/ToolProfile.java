@@ -20,14 +20,28 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.imsglobal.lti2.objects.consumer.ProductInstance;
 
 /**
  *
  * @author paul
  */
+@JsonPropertyOrder({
+        "@context",
+        "@type",
+        "@id"
+})
+@com.fasterxml.jackson.annotation.JsonPropertyOrder({
+        "@context",
+        "@type",
+        "@id"
+})
 public class ToolProfile {
 
+    @org.codehaus.jackson.annotate.JsonProperty("@context")
+    @com.fasterxml.jackson.annotation.JsonProperty("@context")
+    private Object _context;
     @JsonProperty("@id")
     @org.codehaus.jackson.annotate.JsonProperty("@id")
     private String _id;
@@ -43,8 +57,8 @@ public class ToolProfile {
     public ToolProfile() {
     }
 
-    public ToolProfile(String _type, String _id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, List<ResourceHandler> resource_handler, List<Message> message) {
-         
+    public ToolProfile(Object _context,String _type, String _id, String lti_version, JsonNode base_url_choice, ProductInstance product_instance, List<ResourceHandler> resource_handler, List<Message> message) {
+        this._context = _context;
         this._type = _type;
         this._id = _id;
         this.lti_version = lti_version;
@@ -108,5 +122,13 @@ public class ToolProfile {
 
     public void set_type(String _type) {
         this._type = _type;
+    }
+
+    public Object get_context() {
+        return _context;
+    }
+
+    public void set_context(Object _context) {
+        this._context = _context;
     }
 }
