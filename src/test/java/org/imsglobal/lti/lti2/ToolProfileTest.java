@@ -44,7 +44,8 @@ public class ToolProfileTest {
             "                \"default_value\": \"CourseViewer\",\n" +
             "                \"key\": \"tool.name\",\n" +
             "                \"additionalProperties\": {\n" +
-            "                    \n" +
+            "                \"default_value\": \"Test Description\",\n" +
+            "                \"key\": \"test_description\"\n" +
             "                }\n" +
             "            },\n" +
             "            \"product_version\": \"1.0\",\n" +
@@ -52,14 +53,16 @@ public class ToolProfileTest {
             "                \"default_value\": \"LMSCourseViewer\",\n" +
             "                \"key\": \"tool.description\",\n" +
             "                \"additionalProperties\": {\n" +
-            "                    \n" +
+            "                \"default_value\": \"Test Description\",\n" +
+            "                \"key\": \"test_description\"\n" +
             "                }\n" +
             "            },\n" +
             "            \"technical_description\": {\n" +
             "                \"default_value\": \"SupportprovidedforLTI2\",\n" +
             "                \"key\": \"tool.technical\",\n" +
             "                \"additionalProperties\": {\n" +
-            "                    \n" +
+            "                \"default_value\": \"test technical description\",\n" +
+            "                \"key\": \"test_technical_description\"\n" +
             "                }\n" +
             "            },\n" +
             "            \"product_family\": null\n" +
@@ -72,7 +75,8 @@ public class ToolProfileTest {
             "                \"default_value\": \"Providerofhighperformancemanagedhostingenvironments\",\n" +
             "                \"key\": \"service_provider.description\",\n" +
             "                \"additionalProperties\": {\n" +
-            "                    \n" +
+            "                \"default_value\": \"Service_Provider\",\n" +
+            "                \"key\": \"service_provider\"\n" +
             "                }\n" +
             "            },\n" +
             "            \"timestamp\": \"2012-04-05T09: 08: 16-04: 00\",\n" +
@@ -114,6 +118,8 @@ public class ToolProfileTest {
             "                \"default_value\": \"Bookshelf\",\n" +
             "                \"key\": \"resource.name\",\n" +
             "                \"additionalProperties\": {\n" +
+            "                \"default_value\": \"message name\",\n" +
+            "                \"key\": \"message_name\"\n" +
             "                    \n" +
             "                }\n" +
             "            },\n" +
@@ -122,6 +128,8 @@ public class ToolProfileTest {
             "                \"default_value\": \"VitalSourceBookshelf\",\n" +
             "                \"key\": \"resource.description\",\n" +
             "                \"additionalProperties\": {\n" +
+            "                \"default_value\": \"message description\",\n" +
+            "                \"key\": \"message_description\"\n" +
             "                    \n" +
             "                }\n" +
             "            }\n" +
@@ -211,7 +219,16 @@ public class ToolProfileTest {
         ProductInstance productInstance = toolProfile.getProduct_instance();
         assertTrue("fd75124a-140e-470f-944c-114d2d92bb40".equalsIgnoreCase(productInstance.getGuid()));
         assertTrue("1.0".equalsIgnoreCase(productInstance.getProduct_info().getProduct_version()));
+        assertTrue("Test Description".equalsIgnoreCase((String)productInstance.getProduct_info().getDescription().getAdditionalProperties().get("default_value")));
+        assertTrue("test_description".equalsIgnoreCase((String)productInstance.getProduct_info().getDescription().getAdditionalProperties().get("key")));
+        assertTrue("Service_Provider".equalsIgnoreCase((String) productInstance.getService_provider().getDescription().getAdditionalProperties().get("default_value")));
+        assertTrue("service_provider".equalsIgnoreCase((String) productInstance.getService_provider().getDescription().getAdditionalProperties().get("key")));
+        assertTrue("test technical description".equalsIgnoreCase((String) productInstance.getProduct_info().getTechnical_description().getAdditionalProperties().get("default_value")));
+        assertTrue("test_technical_description".equalsIgnoreCase((String) productInstance.getProduct_info().getTechnical_description().getAdditionalProperties().get("key")));
         assertTrue("support@support.com".equalsIgnoreCase(productInstance.getService_provider().getSupport().getEmail()));
+        assertTrue("Test Description".equalsIgnoreCase((String)productInstance.getProduct_info().getProduct_name().getAdditionalProperties().get("default_value")));
+        assertTrue("test_description".equalsIgnoreCase((String)productInstance.getProduct_info().getProduct_name().getAdditionalProperties().get("key")));
+
     }
 
     @Test
@@ -219,6 +236,10 @@ public class ToolProfileTest {
         List<ResourceHandler> resourceHandlerNodeList = toolProfile.getResource_handler();
         assertTrue(2== resourceHandlerNodeList.size());
         ResourceHandler resourceHandler1 = resourceHandlerNodeList.get(0);
+        assertTrue("message name".equalsIgnoreCase((String)resourceHandler1.getName().getAdditionalProperties().get("default_value")));
+        assertTrue("message_name".equalsIgnoreCase((String)resourceHandler1.getName().getAdditionalProperties().get("key")));
+        assertTrue("message description".equalsIgnoreCase((String)resourceHandler1.getDescription().getAdditionalProperties().get("default_value")));
+        assertTrue("message_description".equalsIgnoreCase((String) resourceHandler1.getDescription().getAdditionalProperties().get("key")));
         Message message1 = resourceHandler1.getMessage().get(0);
         assertTrue("/bookshelves".equalsIgnoreCase(message1.getPath()));
         ResourceHandler resourceHandler2 = resourceHandlerNodeList.get(1);
