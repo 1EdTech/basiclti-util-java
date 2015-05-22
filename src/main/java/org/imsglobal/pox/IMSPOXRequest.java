@@ -548,6 +548,8 @@ public class IMSPOXRequest {
 		HttpPost request = buildReplaceResult(url, key, secret, sourcedid, score, resultData, isUrl);
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(request);
+System.out.println("**** outcomes status code: "+response.getStatusLine().getStatusCode());
+System.out.println("**** outcomes reason: "+response.getStatusLine().getReasonPhrase());
 		if (response.getStatusLine().getStatusCode() >= 400) {
 			throw new HttpResponseException(response.getStatusLine().getStatusCode(),
 					response.getStatusLine().getReasonPhrase());

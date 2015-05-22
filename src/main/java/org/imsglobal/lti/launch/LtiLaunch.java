@@ -33,6 +33,11 @@ public class LtiLaunch {
     private String userImage;
     private Map<String, String> custom;
     private Map<String, String> ext;
+    
+    // Deprecated parameters
+	private String lis_result_sourcedid;
+	private String lis_outcome_service_url;
+
 
     public LtiLaunch(HttpServletRequest request) {
         
@@ -53,6 +58,9 @@ public class LtiLaunch {
         this.launchPresentationCssUrl = request.getParameter("launch_presentation_css_url");
         this.roleScopeMentor = request.getParameter("role_scope_mentor");
         this.userImage = request.getParameter("user_image");
+        
+        this.lis_result_sourcedid = request.getParameter("lis_result_sourcedid");
+        this.lis_outcome_service_url = request.getParameter("lis_outcome_service_url");
         
         Map<String, String[]> allRequestParameters = request.getParameterMap();
         if (allRequestParameters != null && !allRequestParameters.isEmpty()) {
@@ -114,6 +122,9 @@ public class LtiLaunch {
         this.launchPresentationCssUrl = parameters.get("launch_presentation_css_url");
         this.roleScopeMentor = parameters.get("role_scope_mentor");
         this.userImage = parameters.get("user_image");
+        
+        this.lis_result_sourcedid = parameters.get("lis_result_sourcedid");
+        this.lis_outcome_service_url = parameters.get("lis_outcome_service_url");
         
     	Set<String> keys = parameters.keySet();
     	for (String key : keys) {
@@ -273,6 +284,22 @@ public class LtiLaunch {
 
 	public void setExt(Map<String, String> ext) {
 		this.ext = ext;
+	}
+	
+	public String getLis_result_sourcedid() {
+		return lis_result_sourcedid;
+	}
+
+	public void setLis_result_sourcedid(String lis_result_sourcedid) {
+		this.lis_result_sourcedid = lis_result_sourcedid;
+	}
+
+	public String getLis_outcome_service_url() {
+		return lis_outcome_service_url;
+	}
+
+	public void setLis_outcome_service_url(String lis_outcome_service_url) {
+		this.lis_outcome_service_url = lis_outcome_service_url;
 	}
 	
 	private String stringArrayToCommaDelimitedString(String [] values) {
