@@ -12,19 +12,15 @@ and make the process more opaque to the developer.
 
 How to use:
 -----------
-Install via Maven:
-```
-git clone https://github.com/pfgray/basiclti-util-java.git
-cd basiclti-util-java/
-mvn clean install
-```
+
+With Maven:  
 Include in your project's `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>org.imsglobal</groupId>
-    <artifactId>basiclti-util</artifactId>
-    <version>1.0.0</version>
+  <groupId>org.imsglobal</groupId>
+  <artifactId>basiclti-util</artifactId>
+  <version>1.1.1</version>
 </dependency>
 ```
 Examples:
