@@ -23,10 +23,48 @@ Include in your project's `pom.xml`:
   <version>1.1.1</version>
 </dependency>
 ```
-Examples:
----------
 
-LTI Producer:
+This library provides support for:
+
+**Tool Providers**:
+
+  1. Verifying an LTI launch request
+  2. Sending LTI 1.1 Outcomes request (xml-based)
+  3. AspectJ launch verifiers for easy integration with Spring-web.
+
+**Tool Consumers**s:
+
+  1. Creating a valid LTI launch request
+
+Some exploratory support for LTIv2:
+
+  1. Parsing Tool Profiles
+  2. Validating Tool Capabilities & Services
+
+
+LTI Providers:
+----
+
+**Verifying an LTI launch request.**
+
+```java
+HttpServletRequest request; // java servlet request
+LtiVerifier ltiVerifier = new LtiOauthVerifier();
+LtiVerificationResult ltiResult = ltiVerifier.verify(
+    request, request.getParameter("oauth_consumer_key"));
+```
+
+**Sending LTI 1.1 Outcomes request (xml-based).**
+
+```java
+//send Request directly
+IMSPOXRequest.sendReplaceResult(url, key, secret, sourcedid, score);
+
+//or build the request to send later:
+HttpPost request = IMSPOXRequest.buildReplaceResult(url, key, secret, sourcedid, score, true);
+```
+
+**AspectJ launch verifiers for easy integration with Spring-web.**
 
 Spring Controller (LTI Producer):
 ```java
@@ -40,6 +78,7 @@ public String ltiEntry(HttpServletRequest request, LtiVerificationResult result)
     }
 }
 ```
+
 KeyService Implementation:
 ```java
 public class MockKeyService implements LtiKeySecretService {
@@ -59,16 +98,16 @@ Spring Context xml:
     </constructor-arg>
 </bean>
 ```
-How to Contribute:
-------------------
-1. Fork the repo
-2. Add changes
-3. Send a pull request with those changes
 
-TODO List:
---------------
+LTI Consumers:
+----
 
-- [ ] Write Unit tests for LTI Consumer code
-- [ ] Write Unit tests for LTI 2 code
+**Building an LTI launch request.**
+
+```java
+LtiSigner ltiSigner = new LtiOauthSigner();
+Map<String, String> signedParameters = signParameters(parameters, key, secret, url, "POST");
+```
+
 
 © 2014 IMS Global Learning Consortium, Inc. All Rights Reserved.   
