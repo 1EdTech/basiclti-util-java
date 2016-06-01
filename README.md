@@ -50,8 +50,9 @@ LTI Providers:
 ```java
 HttpServletRequest request; // java servlet request
 LtiVerifier ltiVerifier = new LtiOauthVerifier();
-LtiVerificationResult ltiResult = ltiVerifier.verify(
-    request, request.getParameter("oauth_consumer_key"));
+String key = request.getParameter("oauth_consumer_key");
+String secret = // retrieve corresponding secret for key from db
+LtiVerificationResult ltiResult = ltiVerifier.verify(request, secret);
 ```
 
 **Sending LTI 1.1 Outcomes request (xml-based).**
