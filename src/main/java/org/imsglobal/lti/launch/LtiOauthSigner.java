@@ -8,10 +8,18 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
+import oauth.signpost.http.HttpParameters;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpRequest;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +30,33 @@ import java.util.Map;
  */
 public class LtiOauthSigner implements LtiSigner {
 
+    private MessageDigest md;
+
+    public LtiOauthSigner() {
+        try{
+            md = MessageDigest.getInstance("SHA1");
+        } catch(NoSuchAlgorithmException e) {
+            throw new RuntimeException("Could not construct new instance of LtiOauthSigner", e);
+        }
+    }
+
+    public LtiOauthSigner(MessageDigest md) {
+        this.md = md;
+    }
+
     @Override
     public HttpRequest sign(HttpRequest request, String key, String secret) throws LtiSigningException {
         CommonsHttpOAuthConsumer signer = new CommonsHttpOAuthConsumer(key, secret);
         try {
+            String body = getRequestBody(request);
+            String bodyHash = new String(Base64.encodeBase64(md.digest(body.getBytes())));
+
+            HttpParameters params = new HttpParameters();
+            params.put("oauth_body_hash", URLEncoder.encode(bodyHash, "UTF-8"));
+            signer.setAdditionalParameters(params);
+
             signer.sign(request);
-        } catch (OAuthMessageSignerException|OAuthExpectationFailedException|OAuthCommunicationException e) {
+        } catch (OAuthMessageSignerException|OAuthExpectationFailedException|OAuthCommunicationException|IOException e) {
             throw new LtiSigningException("Exception encountered while singing Lti request...", e);
         }
         return request;
@@ -48,6 +77,16 @@ public class LtiOauthSigner implements LtiSigner {
             return signedParameters;
         } catch (OAuthException |IOException |URISyntaxException e) {
             throw new LtiSigningException("Error signing LTI request.", e);
+        }
+    }
+
+    private String getRequestBody(HttpRequest req) throws IOException {
+        if(req instanceof HttpEntityEnclosingRequest){
+            HttpEntity body = ((HttpEntityEnclosingRequest) req).getEntity();
+            return IOUtils.toString(body.getContent());
+        } else {
+            // requests with no entity have an empty string as the body
+            return "";
         }
     }
 
