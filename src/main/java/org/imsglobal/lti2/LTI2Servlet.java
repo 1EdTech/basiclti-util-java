@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,8 +34,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
@@ -80,7 +80,7 @@ import org.json.simple.JSONValue;
 public class LTI2Servlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static Log M_log = LogFactory.getLog(LTI2Servlet.class);
+	private static Logger M_log = Logger.getLogger(LTI2Servlet.class.getName());
 
 	protected ServiceOffered LTI2ResultItem = null;
 	protected ServiceOffered LTI2LtiLinkSettings = null;
@@ -125,7 +125,7 @@ public class LTI2Servlet extends HttpServlet {
 		} catch (Exception e) {
 			String ipAddress = request.getRemoteAddr();
 			String uri = request.getRequestURI();
-			M_log.warn("General LTI2 Failure URI="+uri+" IP=" + ipAddress);
+			M_log.log(Level.WARNING, "General LTI2 Failure URI="+uri+" IP=" + ipAddress);
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
 			doErrorJSON(request, response, null, "General failure", e);
@@ -179,7 +179,7 @@ public class LTI2Servlet extends HttpServlet {
 		}
 
 		response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED); 
-		M_log.warn("Unknown request="+uri);
+		M_log.log(Level.WARNING, "Unknown request="+uri);
 		doErrorJSON(request, response, null, "Unknown request="+uri, null);
 	}
 
@@ -440,7 +440,7 @@ public class LTI2Servlet extends HttpServlet {
 		response.setContentType(StandardServices.TOOLPROXY_ID_FORMAT);
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		String jsonText = JSONValue.toJSONString(jsonResponse);
-		M_log.debug(jsonText);
+		M_log.log(Level.FINE, jsonText);
 		PrintWriter out = response.getWriter();
 		out.println(jsonText);
 	}
@@ -477,7 +477,7 @@ public class LTI2Servlet extends HttpServlet {
 			response.setContentType(StandardServices.RESULT_FORMAT);
 			response.setStatus(HttpServletResponse.SC_OK);
 			String jsonText = JSONValue.toJSONString(jsonResponse);
-			M_log.debug(jsonText);
+			M_log.log(Level.FINE, jsonText);
 			PrintWriter out = response.getWriter();
 			out.println(jsonText);
 			return;
@@ -624,7 +624,7 @@ System.out.println("settings="+settings);
 		throws java.io.IOException 
 	{
 		if (e != null) {
-			M_log.error(e.getLocalizedMessage(), e);
+			M_log.log(Level.WARNING, e.getLocalizedMessage(), e);
 		}
         M_log.info(message);
 		String output = IMSJSONRequest.doErrorJSON(request, response, json, message, e);
