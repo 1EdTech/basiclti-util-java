@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * Author: Charles Severance <csev@umich.edu>
  */
 
@@ -50,12 +50,13 @@ import org.json.simple.JSONValue;
 
 /**
  * Notes:
- * 
- * This is a sample "Hello World" servlet for LTI2.  It is a simple UI - mostly 
- * intended to exercise the APIs and show the way for servlet-based LTI2 code.
- * 
- * Here are the web.xml entries:
  *
+ * This is a sample "Hello World" servlet for LTI2.  It is a simple UI - mostly
+ * intended to exercise the APIs and show the way for servlet-based LTI2 code.
+ *
+ * Here are the web.xml entries:
+ * <pre>
+ * {@code
  *  <servlet>
  *    <servlet-name>SampleServlet</servlet-name>
  *    <servlet-class>org.imsglobal.lti2.LTI2Servlet</servlet-class>
@@ -64,16 +65,18 @@ import org.json.simple.JSONValue;
  *    <servlet-name>SampleServlet</servlet-name>
  *    <url-pattern>/sample/*</url-pattern>
  *  </servlet-mapping>
+ * }
+ * </pre>
  *
- *  The navigate to:
+ *  Then navigate to:
  *  http://localhost/testservlet/sample/register
- * 
+ *
  *  A PHP endpoint is available at:
- * 
+ *
  *  https://source.sakaiproject.org/svn/basiclti/trunk/basiclti-docs/resources/docs/sakai-api-test
- * 
+ *
  *  The tp.php script is the Tool Provider registration endpoint in the PHP code
- * 
+ *
  */
 
 @SuppressWarnings("deprecation")
@@ -117,24 +120,24 @@ public class LTI2Servlet extends HttpServlet {
 		doPost(request,response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-		throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException
 	{
-		try { 
+		try {
 			doRequest(request, response);
 		} catch (Exception e) {
 			String ipAddress = request.getRemoteAddr();
 			String uri = request.getRequestURI();
 			M_log.log(Level.WARNING, "General LTI2 Failure URI="+uri+" IP=" + ipAddress);
 			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			doErrorJSON(request, response, null, "General failure", e);
 		}
 	}
 
 	@SuppressWarnings("unused")
-	protected void doRequest(HttpServletRequest request, HttpServletResponse response) 
-		throws ServletException, IOException 
+	protected void doRequest(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException
 	{
 		System.out.println("getServiceURL="+getServiceURL(request));
 
@@ -145,7 +148,7 @@ public class LTI2Servlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		String [] parts = uri.split("/");
 		if ( parts.length < 4 ) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); 
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			doErrorJSON(request, response, null, "Incorrect url format", null);
 			return;
 		}
@@ -178,7 +181,7 @@ public class LTI2Servlet extends HttpServlet {
 			System.out.println(jsonRequest.getPostBody());
 		}
 
-		response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED); 
+		response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 		M_log.log(Level.WARNING, "Unknown request="+uri);
 		doErrorJSON(request, response, null, "Unknown request="+uri, null);
 	}
@@ -208,7 +211,7 @@ public class LTI2Servlet extends HttpServlet {
 			boolean dodebug = true;
 			output = BasicLTIUtil.postLaunchHTML(ltiProps, launch_url, dodebug);
 		} else {
-			output = "<form>Register URL:<br/><input type=\"text\" name=\"launch_url\" size=\"80\"\n" + 
+			output = "<form>Register URL:<br/><input type=\"text\" name=\"launch_url\" size=\"80\"\n" +
 				"value=\"http://localhost:8888/sakai-api-test/tp.php\"><input type=\"submit\">\n";
 		}
 
@@ -222,12 +225,12 @@ public class LTI2Servlet extends HttpServlet {
 	}
 
 	// We are actually bypassing the activation step.  Usually activation will parse
-	// the profile, and install a tool if the admin is happy.  For us we just parse 
+	// the profile, and install a tool if the admin is happy.  For us we just parse
 	// the profile and do a launch.
 	@SuppressWarnings("unused")
 	protected void doLaunch(HttpServletRequest request, HttpServletResponse response)
 	{
-		
+
 		String profile = PERSIST.get("profile");
 		response.setContentType("text/html");
 
@@ -259,9 +262,9 @@ public class LTI2Servlet extends HttpServlet {
 			String settings_url = getServiceURL(request) + SVC_Settings + "/";
 			lti2subst.setProperty("LtiLink.custom.url", settings_url + LTI2Util.SCOPE_LtiLink + "/"
 					+ ltiProps.getProperty(BasicLTIConstants.RESOURCE_LINK_ID));
-			lti2subst.setProperty("ToolProxyBinding.custom.url", settings_url + LTI2Util.SCOPE_ToolProxyBinding + "/" 
+			lti2subst.setProperty("ToolProxyBinding.custom.url", settings_url + LTI2Util.SCOPE_ToolProxyBinding + "/"
 					+ ltiProps.getProperty(BasicLTIConstants.CONTEXT_ID));
-			lti2subst.setProperty("ToolProxy.custom.url", settings_url + LTI2Util.SCOPE_ToolProxy + "/" 
+			lti2subst.setProperty("ToolProxy.custom.url", settings_url + LTI2Util.SCOPE_ToolProxy + "/"
 					+ TEST_KEY);
 			lti2subst.setProperty("Result.url", getServiceURL(request) + SVC_Result + "/"
 					+ ltiProps.getProperty(BasicLTIConstants.RESOURCE_LINK_ID));
@@ -290,7 +293,7 @@ public class LTI2Servlet extends HttpServlet {
 		}
 	}
 
-	protected void getToolConsumerProfile(HttpServletRequest request, 
+	protected void getToolConsumerProfile(HttpServletRequest request,
 			HttpServletResponse response,String profile_id)
 	{
 		// Map<String,Object> deploy = ltiService.getDeployForConsumerKeyDao(profile_id);
@@ -302,7 +305,7 @@ public class LTI2Servlet extends HttpServlet {
 		try {
 			// http://stackoverflow.com/questions/6176881/how-do-i-make-jackson-pretty-print-the-json-content-it-generates
 			ObjectWriter writer = mapper.defaultPrettyPrintingWriter();
-			// ***IMPORTANT!!!*** for Jackson 2.x use the line below instead of the one above: 
+			// ***IMPORTANT!!!*** for Jackson 2.x use the line below instead of the one above:
 			// ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
 			// System.out.println(mapper.writeValueAsString(consumer));
 			response.setContentType(APPLICATION_JSON);
@@ -333,26 +336,26 @@ public class LTI2Servlet extends HttpServlet {
 
 		// Normally we would check permissions before we offer services
 		List<ServiceOffered> services = consumer.getService_offered();
-		services.add(StandardServices.LTI2Registration(getServiceURL(request) + 
+		services.add(StandardServices.LTI2Registration(getServiceURL(request) +
 			SVC_tc_registration + "/" + profile_id));
-		services.add(StandardServices.LTI2ResultItem(getServiceURL(request) + 
+		services.add(StandardServices.LTI2ResultItem(getServiceURL(request) +
 			SVC_Result + "/{" + BasicLTIConstants.LIS_RESULT_SOURCEDID + "}"));
-		services.add(StandardServices.LTI2LtiLinkSettings(getServiceURL(request) + 
+		services.add(StandardServices.LTI2LtiLinkSettings(getServiceURL(request) +
 			SVC_Settings + "/" + LTI2Util.SCOPE_LtiLink + "/{" + BasicLTIConstants.RESOURCE_LINK_ID + "}"));
-		services.add(StandardServices.LTI2ToolProxySettings(getServiceURL(request) + 
+		services.add(StandardServices.LTI2ToolProxySettings(getServiceURL(request) +
 			SVC_Settings + "/" + LTI2Util.SCOPE_ToolProxyBinding + "/{" + BasicLTIConstants.CONTEXT_ID + "}"));
-		services.add(StandardServices.LTI2ToolProxySettings(getServiceURL(request) + 
+		services.add(StandardServices.LTI2ToolProxySettings(getServiceURL(request) +
 			SVC_Settings + "/" + LTI2Util.SCOPE_ToolProxy + "/{" + LTI2Constants.TOOL_PROXY_GUID + "}"));
 		return consumer;
 	}
 
 	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
-	public void registerToolProviderProfile(HttpServletRequest request,HttpServletResponse response, 
+	public void registerToolProviderProfile(HttpServletRequest request,HttpServletResponse response,
 			String profile_id) throws java.io.IOException
 	{
 		// Normally we would look up the deployment descriptor
 		if ( ! TEST_KEY.equals(profile_id) ) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND); 
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
 
@@ -371,14 +374,14 @@ public class LTI2Servlet extends HttpServlet {
 
 		// Lets check the signature
 		if ( key == null || secret == null ) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN); 
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			doErrorJSON(request, response, jsonRequest, "Deployment is missing credentials", null);
 			return;
 		}
 
 		jsonRequest.validateRequest(key, secret, request);
 		if ( !jsonRequest.valid ) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN); 
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			doErrorJSON(request, response, jsonRequest, "OAuth signature failure", null);
 			return;
 		}
@@ -456,18 +459,18 @@ public class LTI2Servlet extends HttpServlet {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void handleResultRequest(HttpServletRequest request,HttpServletResponse response, 
+	public void handleResultRequest(HttpServletRequest request,HttpServletResponse response,
 			String sourcedid) throws java.io.IOException
 	{
 		IMSJSONRequest jsonRequest = null;
 		String retval = null;
-		if ( "GET".equals(request.getMethod()) ) { 
+		if ( "GET".equals(request.getMethod()) ) {
 			String grade = PERSIST.get("grade");
 			String comment = PERSIST.get("comment");
 
 			Map jsonResponse = new TreeMap();
 			Map resultScore = new TreeMap();
-	
+
 			jsonResponse.put(LTI2Constants.CONTEXT,StandardServices.RESULT_CONTEXT);
 			jsonResponse.put(LTI2Constants.TYPE, StandardServices.RESULT_TYPE);
 			resultScore.put(LTI2Constants.TYPE, LTI2Constants.GRADE_TYPE_DECIMAL);
@@ -481,7 +484,7 @@ public class LTI2Servlet extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(jsonText);
 			return;
-		} else if ( "PUT".equals(request.getMethod()) ) { 
+		} else if ( "PUT".equals(request.getMethod()) ) {
 			retval = "Error parsing input data";
 			try {
 				jsonRequest = new IMSJSONRequest(request);
@@ -502,7 +505,7 @@ public class LTI2Servlet extends HttpServlet {
 		} else {
 			retval = "Unsupported operation:" + request.getMethod();
 		}
-	
+
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		doErrorJSON(request,response, jsonRequest, (String) retval, null);
 	}
@@ -512,7 +515,7 @@ public class LTI2Servlet extends HttpServlet {
     // for PUT.  I begged to simplify the business logic but was overrulled.
 	// So we write obtuse code.
 	@SuppressWarnings("unused")
-	public void handleSettingsRequest(HttpServletRequest request,HttpServletResponse response, 
+	public void handleSettingsRequest(HttpServletRequest request,HttpServletResponse response,
 			String[] parts) throws java.io.IOException
 	{
 
@@ -567,7 +570,7 @@ System.out.println("accept="+acceptHdr+" ac="+acceptComplex);
 		JSONObject proxy_settings = LTI2Util.parseSettings(PERSIST.get(LTI2Util.SCOPE_ToolProxy));
 
 		// For a GET request we depend on LTI2Util to do the GET logic
-		if ( "GET".equals(request.getMethod()) ) { 
+		if ( "GET".equals(request.getMethod()) ) {
 			Object obj = LTI2Util.getSettings(request, scope,
 				link_settings, binding_settings, proxy_settings,
 				link_url, binding_url, proxy_url);
@@ -585,7 +588,7 @@ System.out.println("accept="+acceptHdr+" ac="+acceptComplex);
 			}
 
 			JSONObject jsonResponse = (JSONObject) obj;
-			response.setStatus(HttpServletResponse.SC_OK); 
+			response.setStatus(HttpServletResponse.SC_OK);
 			PrintWriter out = response.getWriter();
 System.out.println("jsonResponse="+jsonResponse);
 			out.println(jsonResponse.toString());
@@ -619,9 +622,9 @@ System.out.println("settings="+settings);
 	}
 
 	/* IMS JSON version of Errors */
-	public void doErrorJSON(HttpServletRequest request,HttpServletResponse response, 
-			IMSJSONRequest json, String message, Exception e) 
-		throws java.io.IOException 
+	public void doErrorJSON(HttpServletRequest request,HttpServletResponse response,
+			IMSJSONRequest json, String message, Exception e)
+		throws java.io.IOException
 	{
 		if (e != null) {
 			M_log.log(Level.WARNING, e.getLocalizedMessage(), e);

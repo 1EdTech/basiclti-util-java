@@ -138,13 +138,13 @@ public class BasicLTIConstants {
 	 */
 	public static final String LAUNCH_PRESENTATION_WIDTH = "launch_presentation_width";
 	/**
-	 * launch_presentation_css_url=http://www.toolconsumer.url/path/to/lti.css 
+	 * launch_presentation_css_url=http://www.toolconsumer.url/path/to/lti.css
 	 * <p>
 	 * This points to a fully qualified URL for a CSS which can be used to style the tool.
-	 * There are no officially defined CSS classes for this file, but the Consumer can 
-	 * apply styles to paragraphs, body, and the various HTML elements.  It is up to the 
+	 * There are no officially defined CSS classes for this file, but the Consumer can
+	 * apply styles to paragraphs, body, and the various HTML elements.  It is up to the
 	 * tool as to whether this CSS is used or not, and in what order this is included relative
-	 * to the tool-specific CSS. 
+	 * to the tool-specific CSS.
 	 */
 	public static final String LAUNCH_PRESENTATION_CSS_URL = "launch_presentation_css_url";
 	/**
@@ -183,21 +183,21 @@ public class BasicLTIConstants {
 	/**
 	 * lis_person_sourcedid=school.edu:user
 	 * <p>
-	 * This field contains the LIS identifier for the user account that is 
-	 * performing this launch.    The example syntax of "school:user" 
+	 * This field contains the LIS identifier for the user account that is
+	 * performing this launch.    The example syntax of "school:user"
 	 * is not the required format – lis_person_sourcedid is simply a
-	 * unique identifier (i.e., a normalized string). This field 
-	 * is optional and its content and meaning are defined by LIS.    
+	 * unique identifier (i.e., a normalized string). This field
+	 * is optional and its content and meaning are defined by LIS.
 	 */
 	public static final String LIS_PERSON_SOURCEDID = "lis_person_sourcedid";
 
 	/**
-	 * lis_course_offering_sourcedid=school.edu:SI182-F08 <br/>
+	 * lis_course_offering_sourcedid=school.edu:SI182-F08
 	 * lis_course_section_sourcedid=school.edu:SI182-001-F08
 	 * <p>
-	 * These fields contain LIS course identifiers associated with the 
-	 * context of this launch.  These fields are optional and their 
-	 * content and meaning are defined by LIS. 
+	 * These fields contain LIS course identifiers associated with the
+	 * context of this launch.  These fields are optional and their
+	 * content and meaning are defined by LIS.
 	 */
 	public static final String LIS_COURSE_OFFERING_SOURCEDID = "lis_course_offering_sourcedid";
 	public static final String LIS_COURSE_SECTION_SOURCEDID = "lis_course_section_sourcedid";
@@ -205,22 +205,22 @@ public class BasicLTIConstants {
 	/**
      * lis_outcome_service_url=http://lmsng.school.edu/service/ltiout/
      * <p>
-     * This field should be no more than 1023 characters long and the TP 
-     * should assume that the URL might change from launch to launch and 
-     * allow for the fact that a TC might change their service URL from 
-     * launch to launch and only use the most recent value for this 
-     * parameter.  The service URL may support various operations / services.  
-     * The TC will respond with a response of 'unimplemented' for services 
-     * it does not support.  
+     * This field should be no more than 1023 characters long and the TP
+     * should assume that the URL might change from launch to launch and
+     * allow for the fact that a TC might change their service URL from
+     * launch to launch and only use the most recent value for this
+     * parameter.  The service URL may support various operations / services.
+     * The TC will respond with a response of 'unimplemented' for services
+     * it does not support.
 	 */
 	public static final String LIS_OUTCOME_SERVICE_URL = "lis_outcome_service_url";
 
 	/**
 	 * lis_result_sourcedid=83873872987329873264783687634
 	 * <p>
-	 * This field contains an identifier that indicates the LIS Result 
-	 * Identifier (if any) associated with this launch. This field is 
-	 * optional and its content and meaning is defined by LIS.    
+	 * This field contains an identifier that indicates the LIS Result
+	 * Identifier (if any) associated with this launch. This field is
+	 * optional and its content and meaning is defined by LIS.
 	 */
 	public static final String LIS_RESULT_SOURCEDID = "lis_result_sourcedid";
 
@@ -245,15 +245,15 @@ public class BasicLTIConstants {
 	public static final String LTI_VERSION_1 = "LTI-1p0";
 	public static final String LTI_VERSION_2 = "LTI-2p0";
 
-   /** 
+   /**
     * tool_consumer_info_product_family_code=desire2learn
     * <p>
-    * In order to better assist tools in using extensions and also making their user 
-    * interface fit into the TC's user interface that they are being called from, 
-    * each TC is encouraged to include the this parameter.   Possible example values 
+    * In order to better assist tools in using extensions and also making their user
+    * interface fit into the TC's user interface that they are being called from,
+    * each TC is encouraged to include the this parameter.   Possible example values
     * for this field might be:
-    * 
-    * 	learn 
+    *
+    * 	learn
     * 	desire2learn
     * 	sakai
     * 	eracer
@@ -263,12 +263,12 @@ public class BasicLTIConstants {
     */
 	public static final String TOOL_CONSUMER_INFO_PRODUCT_FAMILY_CODE = "tool_consumer_info_product_family_code";
 
-   /** 
+   /**
     * tool_consumer_info_version=9.2.4
     * <p>
     * This field should have a major release number followed by a period.  The format of the minor release is flexible.  Possible vaues for this field might be:
-    * 
-    * 	9.1.7081     
+    *
+    * 	9.1.7081
     * 	2.8-01
     * 	7.1
     * 	8
@@ -292,7 +292,7 @@ public class BasicLTIConstants {
 	/**
 	 * resource_link_title=My Weekly Wiki
 	 * <p>
-	 * A title for the resource. This is the clickable text that appears 
+	 * A title for the resource. This is the clickable text that appears
 	 * in the link. This parameter is recommended.
 	 */
 	public static final String RESOURCE_LINK_TITLE = "resource_link_title";
@@ -300,8 +300,8 @@ public class BasicLTIConstants {
 	/**
 	 * resource_link_description=…
 	 * <p>
-	 * A plain text description of the link’s destination, suitable for 
-	 * display alongside the link. Typically no more than several lines 
+	 * A plain text description of the link’s destination, suitable for
+	 * display alongside the link. Typically no more than several lines
 	 * long. This parameter is optional.
 	 */
 	public static final String RESOURCE_LINK_DESCRIPTION = "resource_link_description";
@@ -324,13 +324,13 @@ public class BasicLTIConstants {
 	/**
 	 * tc_profile_url=http://...
 	 * <p>
-	 * This URL specifies the address where the Tool Provider can retrieve 
-	 * the Tool Consumer Profile.   This URL must be retrievable by a GET 
-	 * request by the Tool Provider.  If the URL is protected from retrieval 
-	 * in general, the Tool Consumer must append the necessary parameters to 
-	 * allow the Tool Provider to retrieve the URL with nothing more than 
-	 * a GET request.  It is legal for this URL to contain a security token 
-	 * that is changed for each ToolProxyRegistrationRequest so the Tool 
+	 * This URL specifies the address where the Tool Provider can retrieve
+	 * the Tool Consumer Profile.   This URL must be retrievable by a GET
+	 * request by the Tool Provider.  If the URL is protected from retrieval
+	 * in general, the Tool Consumer must append the necessary parameters to
+	 * allow the Tool Provider to retrieve the URL with nothing more than
+	 * a GET request.  It is legal for this URL to contain a security token
+	 * that is changed for each ToolProxyRegistrationRequest so the Tool
 	 * Provider must retrieve the tc_profile_url on each request.
 	 */
 	public static final String TC_PROFILE_URL = "tc_profile_url";
@@ -400,7 +400,7 @@ public class BasicLTIConstants {
 	 * This parameter is optional and is unique to the Sakai Basic LTI provider.
 	 */
 	public static final String EXT_SAKAI_PROVIDER_EID = "ext_sakai_provider_eid";
-	
+
 	/**
 	 * ext_sakai_provider_displayid=john.smith
 	 * <p>
@@ -420,20 +420,20 @@ public class BasicLTIConstants {
 		LAUNCH_PRESENTATION_DOCUMENT_TARGET, LAUNCH_PRESENTATION_HEIGHT,
 		LAUNCH_PRESENTATION_LOCALE, LAUNCH_PRESENTATION_RETURN_URL,
 		LAUNCH_PRESENTATION_WIDTH, LIS_PERSON_CONTACT_EMAIL_PRIMARY,
-		LAUNCH_PRESENTATION_CSS_URL, 
+		LAUNCH_PRESENTATION_CSS_URL,
 		TOOL_CONSUMER_INFO_PRODUCT_FAMILY_CODE,
 		TOOL_CONSUMER_INFO_VERSION,
 		LIS_PERSON_NAME_FAMILY, LIS_PERSON_NAME_FULL, LIS_PERSON_NAME_GIVEN,
-		LIS_PERSON_SOURCEDID, LIS_COURSE_OFFERING_SOURCEDID, 
-		LIS_COURSE_SECTION_SOURCEDID, 
+		LIS_PERSON_SOURCEDID, LIS_COURSE_OFFERING_SOURCEDID,
+		LIS_COURSE_SECTION_SOURCEDID,
         LIS_OUTCOME_SERVICE_URL, LIS_RESULT_SOURCEDID,
-		LTI_MESSAGE_TYPE, LTI_VERSION, RESOURCE_LINK_ID, 
+		LTI_MESSAGE_TYPE, LTI_VERSION, RESOURCE_LINK_ID,
 		RESOURCE_LINK_TITLE, RESOURCE_LINK_DESCRIPTION, ROLES,
 		TC_PROFILE_URL,
 		TOOL_CONSUMER_INSTANCE_CONTACT_EMAIL, TOOL_CONSUMER_INSTANCE_DESCRIPTION,
 		TOOL_CONSUMER_INSTANCE_GUID, TOOL_CONSUMER_INSTANCE_NAME,
 		TOOL_CONSUMER_INSTANCE_URL, USER_ID, USER_IMAGE };
-	
+
 	/**
 	 * The default site type to use if a site needs to be created. Can be overriden in sakai.properties or as part of the launch.
 	 * This contains a number of preconfigured roles, so that the IMS role vocabulary can be used.
