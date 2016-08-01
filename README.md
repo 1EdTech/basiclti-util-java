@@ -20,7 +20,7 @@ Include in your project's `pom.xml`:
 <dependency>
   <groupId>org.imsglobal</groupId>
   <artifactId>basiclti-util</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
 </dependency>
 ```
 
