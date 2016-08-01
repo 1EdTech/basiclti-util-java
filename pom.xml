@@ -7,7 +7,7 @@
     <url>https://github.com/IMSGlobal/basiclti-util-java</url>
     <groupId>org.imsglobal</groupId>
     <artifactId>basiclti-util</artifactId>
-    <version>1.1.2</version>
+    <version>1.2.0-SNAPSHOT</version>
     <organization>
         <name>IMS Global Learning Consortium</name>
         <url>www.imsglobal.org/</url>
