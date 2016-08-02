@@ -28,8 +28,8 @@ public interface LtiVerifier {
 
     /**
      * This method will verify a list of properties (mapped
-     * by key & value).
-     * @param parameters the parameters that will be verified. mapped by key & value
+     * by key &amp; value).
+     * @param parameters the parameters that will be verified. mapped by key &amp; value
      * @param url the url this request was made at
      * @param method the method this url was requested with
      * @param secret the secret to verify the propertihes with

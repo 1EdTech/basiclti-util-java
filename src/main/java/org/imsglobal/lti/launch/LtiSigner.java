@@ -35,8 +35,8 @@ public interface LtiSigner {
      * overwrite reserved parameters from the underlying
      * specification. For example, if you are using the Oauth
      * implementation, <b>oauth_signature</b> will be removed
-     * & replaced with the generated signature from the properties.
-     * @param parameters the parameters that will be signed. mapped by key & value
+     * &amp; replaced with the generated signature from the properties.
+     * @param parameters the parameters that will be signed. mapped by key &amp; value
      * @param key the key that will be added to the request.
      * @param secret the secret to be sign the parameters with
      * @return a map of signed parameters (including the signature)

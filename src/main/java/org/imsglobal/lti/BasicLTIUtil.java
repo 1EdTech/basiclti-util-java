@@ -437,7 +437,7 @@ public class BasicLTIUtil {
      * Check if the properties are properly signed
      *
      * @deprecated See:
-     * {@link BasicLTIUtil#checkProperties(Map, String, String, String, String, String, String, String, String, String)}
+     * {@link BasicLTIUtil#checkProperties(Map, String, String, String, String)}
      *
      * @param postProp
      * @param url
@@ -755,7 +755,7 @@ public class BasicLTIUtil {
      * neither a number or letter is replaced with an "underscore". So if a
      * custom entry was as follows:
      *
-     * <parameter name="Vendor:Chapter">1.2.56</parameter>
+     * {@code <parameter name="Vendor:Chapter">1.2.56</parameter>}
      *
      * Would map to: custom_vendor_chapter=1.2.56
      */
@@ -780,7 +780,7 @@ public class BasicLTIUtil {
     }
 
     /**
-     * Mutates the passed Map<String, String> map variable. Puts the key,value
+     * Mutates the passed {@code Map<String, String> map} variable. Puts the key,value
      * into the Map if the value is not null and is not empty.
      *
      * @param map Variable is mutated by this method.
@@ -831,7 +831,6 @@ public class BasicLTIUtil {
      * Simple utility method deal with a request that has the wrong URL when
      * behind a proxy.
      *
-     * @param request
      * @param extUrl The url that the external world sees us as responding to.
      * This needs to be up to but not including the last slash like and not
      * include any path information http://www.sakaiproject.org - although we do
@@ -858,8 +857,7 @@ public class BasicLTIUtil {
     }
 
     /**
-     * Simple utility method to help with the migration from Properties to
-     * Map<String, String>.
+     * Simple utility method to help with the migration from {@code Properties} to {@code Map<String, String>}.
      *
      * @param properties
      * @return
@@ -871,10 +869,10 @@ public class BasicLTIUtil {
     }
 
     /**
-     * Simple utility method to help with the migration from Map<String, String>
-     * to Properties.
+     * Simple utility method to help with the migration from {@code Map<String, String>}
+     * to {@code Properties}.
      *
-     * @deprecated Should migrate to Map<String, String> signatures.
+     * @deprecated Should migrate to {@code Map<String, String>} signatures.
      * @param map
      * @return
      */
