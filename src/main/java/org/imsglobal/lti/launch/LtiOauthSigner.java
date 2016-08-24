@@ -83,7 +83,11 @@ public class LtiOauthSigner implements LtiSigner {
     private String getRequestBody(HttpRequest req) throws IOException {
         if(req instanceof HttpEntityEnclosingRequest){
             HttpEntity body = ((HttpEntityEnclosingRequest) req).getEntity();
-            return IOUtils.toString(body.getContent());
+            if(body == null) {
+                return "";
+            } else {
+                return IOUtils.toString(body.getContent());
+            }
         } else {
             // requests with no entity have an empty string as the body
             return "";
