@@ -1,13 +1,12 @@
 package org.imsglobal.lti.launch;
 
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by paul on 8/24/16.
+ * @author  Paul Gray
  */
 public class MockHttpGet extends BaseMockHttpServletRequest {
 

@@ -11,7 +11,7 @@ import java.net.URI;
 
 
 /**
- * Created by paul on 8/24/16.
+ * @author  Paul Gray
  */
 public class LtiVerifierAndSignerTest {
 
@@ -40,6 +40,32 @@ public class LtiVerifierAndSignerTest {
 
         signer.sign(ltiLaunch, key, secret);
         LtiVerificationResult result = verifier.verify(new MockHttpPost(ltiLaunch), "wrongSecret");
+
+        assertFalse(result.getSuccess());
+    }
+
+    @Test
+    public void verifierShouldVerifyCorrectlySignedLtiGetServiceRequests() throws Exception {
+
+        String key = "key";
+        String secret = "secret";
+        HttpGet ltiServiceGetRequest = new HttpGet(new URI("http://example.com/test"));
+
+        signer.sign(ltiServiceGetRequest, key, secret);
+        LtiVerificationResult result = verifier.verify(new MockHttpGet(ltiServiceGetRequest), secret);
+
+        assertTrue(result.getSuccess());
+    }
+
+    @Test
+    public void verifierShouldRejectIncorrectlySignedLtiGetServiceRequests() throws Exception {
+
+        String key = "key";
+        String secret = "secret";
+        HttpGet ltiServiceGetRequest = new HttpGet(new URI("http://example.com/test"));
+
+        signer.sign(ltiServiceGetRequest, key, secret);
+        LtiVerificationResult result = verifier.verify(new MockHttpGet(ltiServiceGetRequest), "anotherWrongSecret");
 
         assertFalse(result.getSuccess());
     }

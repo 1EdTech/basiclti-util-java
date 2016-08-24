@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * Created by paul on 8/24/16.
+ * @author  Paul Gray
  */
 public abstract class BaseMockHttpServletRequest implements HttpServletRequest {
 
