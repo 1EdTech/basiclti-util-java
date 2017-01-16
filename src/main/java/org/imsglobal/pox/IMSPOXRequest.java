@@ -513,6 +513,7 @@ public class IMSPOXRequest {
 			"	<imsx_POXHeader>"+
 			"		<imsx_POXRequestHeaderInfo>"+
 			"			<imsx_version>V1.0</imsx_version>"+
+			"			<imsx_messageIdentifier>%s</imsx_messageIdentifier>" +
 			"		</imsx_POXRequestHeaderInfo>"+
 			"	</imsx_POXHeader>"+
 			"	<imsx_POXBody>"+
@@ -553,14 +554,20 @@ public class IMSPOXRequest {
 					response.getStatusLine().getReasonPhrase());
 		}
 	}
-
-	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException, GeneralSecurityException {
+	
+	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl, String messageId) throws IOException, OAuthException, GeneralSecurityException {
 		String dataXml = "";
 		if (resultData != null) {
 			String format = isUrl ? resultDataUrl : resultDataText;
 			dataXml = String.format(format, StringEscapeUtils.escapeXml(resultData));
 		}
-		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(sourcedid),
+		
+		String msgid = messageId;
+		if (messageId == null) {
+			msgid = String.valueOf(new Date().getTime());
+		}
+		
+		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(msgid), StringEscapeUtils.escapeXml(sourcedid),
 				StringEscapeUtils.escapeXml(score), dataXml);
 
 		HttpParameters parameters = new HttpParameters();
@@ -574,6 +581,10 @@ public class IMSPOXRequest {
 		signer.setAdditionalParameters(parameters);
 		signer.sign(request);
 		return request;
+	}
+
+	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException, GeneralSecurityException {
+		return buildReplaceResult(url, key, secret, sourcedid, score, resultData, isUrl, null);
 	}
 
 	/*
