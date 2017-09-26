@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,17 +65,21 @@ public class LtiOauthSigner implements LtiSigner {
 
     @Override
     public Map<String, String> signParameters(Map<String, String> parameters, String key, String secret, String url, String method) throws LtiSigningException {
-        OAuthMessage oam = new OAuthMessage(method, url, parameters.entrySet());
+        Map<String, String> signedParameters = new HashMap<>();
+        for(Map.Entry<String, String> param : signParameters(parameters.entrySet(), key, secret, url, method)){
+            signedParameters.put(param.getKey(), param.getValue());
+        }
+        return signedParameters;
+    }
+
+    @Override
+    public Collection<Map.Entry<String, String>> signParameters(Collection<? extends Map.Entry<String, String>> parameters, String key, String secret, String url, String method) throws LtiSigningException {
+        OAuthMessage oam = new OAuthMessage(method, url, parameters);
         OAuthConsumer cons = new OAuthConsumer(null, key, secret, null);
         OAuthAccessor acc = new OAuthAccessor(cons);
         try {
             oam.addRequiredParameters(acc);
-
-            Map<String, String> signedParameters = new HashMap<>();
-            for(Map.Entry<String, String> param : oam.getParameters()){
-                signedParameters.put(param.getKey(), param.getValue());
-            }
-            return signedParameters;
+            return oam.getParameters();
         } catch (OAuthException |IOException |URISyntaxException e) {
             throw new LtiSigningException("Error signing LTI request.", e);
         }

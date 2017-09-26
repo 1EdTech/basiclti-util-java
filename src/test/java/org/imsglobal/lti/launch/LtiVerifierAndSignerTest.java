@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.net.URI;
+import java.util.*;
 
 
 /**
@@ -58,16 +59,21 @@ public class LtiVerifierAndSignerTest {
     }
 
     @Test
-    public void verifierShouldRejectIncorrectlySignedLtiGetServiceRequests() throws Exception {
+    public void verifierShouldDoStuff() throws Exception {
 
         String key = "key";
         String secret = "secret";
-        HttpGet ltiServiceGetRequest = new HttpGet(new URI("http://example.com/test"));
 
-        signer.sign(ltiServiceGetRequest, key, secret);
-        LtiVerificationResult result = verifier.verify(new MockHttpGet(ltiServiceGetRequest), "anotherWrongSecret");
+        Collection<AbstractMap.SimpleEntry<String, String>> myEntries = Arrays.asList(
+            new AbstractMap.SimpleEntry<String, String>("hm", "okasy"),
+            new AbstractMap.SimpleEntry<String, String>("hm", "asdf"),
+            new AbstractMap.SimpleEntry<String, String>("wat", "asdfasdff")
+        );
 
-        assertFalse(result.getSuccess());
+        Collection signedEntries = signer.signParameters(myEntries, key, secret, "http://example.com/test", "GET");
+        LtiVerificationResult result = verifier.verifyParameters(signedEntries, "http://example.com/test", "GET", secret);
+
+        assertTrue(result.getSuccess());
     }
 
 }

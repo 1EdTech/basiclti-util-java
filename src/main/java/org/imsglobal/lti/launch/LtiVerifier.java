@@ -57,6 +57,6 @@ public interface LtiVerifier {
      * information about the request).
      * @throws LtiVerificationException
      */
-    LtiVerificationResult verifyParameters(Collection<? extends Map.Entry> parameters, String url, String method, String secret) throws LtiVerificationException;
+    LtiVerificationResult verifyParameters(Collection<? extends Map.Entry<String, String>> parameters, String url, String method, String secret) throws LtiVerificationException;
 
 }

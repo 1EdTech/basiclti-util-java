@@ -63,7 +63,7 @@ public class LtiOauthVerifier implements LtiVerifier {
     }
 
     @Override
-    public LtiVerificationResult verifyParameters(Collection<? extends Map.Entry> parameters, String url, String method, String secret) throws LtiVerificationException {
+    public LtiVerificationResult verifyParameters(Collection<? extends Map.Entry<String, String>> parameters, String url, String method, String secret) throws LtiVerificationException {
         OAuthMessage oam = new OAuthMessage(method, url, parameters);
         String key = getKey(parameters, OAUTH_KEY_PARAMETER);
         if(key == null) {
