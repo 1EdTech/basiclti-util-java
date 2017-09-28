@@ -110,5 +110,10 @@ LtiSigner ltiSigner = new LtiOauthSigner();
 Map<String, String> signedParameters = signParameters(parameters, key, secret, url, "POST");
 ```
 
+Contributing:
+-------------
+
+You are welcome to contribute code to this work, but before we accept your PR, must sign a Contributors Agreement. To request a Contributors Agreement, please contact info@imsglobal.org
+
 
 © 2014 IMS Global Learning Consortium, Inc. All Rights Reserved.   
