@@ -58,22 +58,4 @@ public class LtiVerifierAndSignerTest {
         assertTrue(result.getSuccess());
     }
 
-    @Test
-    public void verifierShouldDoStuff() throws Exception {
-
-        String key = "key";
-        String secret = "secret";
-
-        Collection<AbstractMap.SimpleEntry<String, String>> myEntries = Arrays.asList(
-            new AbstractMap.SimpleEntry<String, String>("hm", "okasy"),
-            new AbstractMap.SimpleEntry<String, String>("hm", "asdf"),
-            new AbstractMap.SimpleEntry<String, String>("wat", "asdfasdff")
-        );
-
-        Collection signedEntries = signer.signParameters(myEntries, key, secret, "http://example.com/test", "GET");
-        LtiVerificationResult result = verifier.verifyParameters(signedEntries, "http://example.com/test", "GET", secret);
-
-        assertTrue(result.getSuccess());
-    }
-
 }
