@@ -28,9 +28,10 @@ public class IMSPOXRequestTest {
     @Test
     public void test(){
 
-        String inputTestData = String.format(IMSPOXRequest.replaceResultMessage, "3124567", "A", "");
+        String inputTestData = String.format(IMSPOXRequest.replaceResultMessage, "123", "3124567", "A", "");
         IMSPOXRequest pox = new IMSPOXRequest(inputTestData);
         Assert.assertEquals("V1.0", pox.getHeaderVersion());
+		Assert.assertEquals("123", pox.getHeaderMessageIdentifier());
         Assert.assertEquals("replaceResultRequest", pox.getOperation());
         Map<String,String> bodyMap = pox.getBodyMap();
         String guid = bodyMap.get("/resultRecord/sourcedGUID/sourcedId");
