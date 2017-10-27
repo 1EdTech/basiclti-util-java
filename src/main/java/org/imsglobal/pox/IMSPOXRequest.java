@@ -33,6 +33,7 @@ import oauth.signpost.http.HttpParameters;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpPost;
@@ -513,6 +514,7 @@ public class IMSPOXRequest {
 			"	<imsx_POXHeader>"+
 			"		<imsx_POXRequestHeaderInfo>"+
 			"			<imsx_version>V1.0</imsx_version>"+
+			"			<imsx_messageIdentifier>%s</imsx_messageIdentifier>"+
 			"		</imsx_POXRequestHeaderInfo>"+
 			"	</imsx_POXHeader>"+
 			"	<imsx_POXBody>"+
@@ -523,6 +525,7 @@ public class IMSPOXRequest {
 			"				</sourcedGUID>"+
 			"				<result>"+
 			"					<resultScore>"+
+			"						<language>en</language>"+
 			"						<textString>%s</textString>"+
 			"					</resultScore>"+
 			"					%s"+
@@ -555,13 +558,24 @@ public class IMSPOXRequest {
 	}
 
 	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid, String score, String resultData, Boolean isUrl) throws IOException, OAuthException, GeneralSecurityException {
+		return buildReplaceResult(url, key, secret, sourcedid, score, resultData, isUrl, null);
+	}
+
+	public static HttpPost buildReplaceResult(String url, String key, String secret, String sourcedid,
+		String score, String resultData, Boolean isUrl, String messageId) throws IOException, OAuthException, GeneralSecurityException
+	{
 		String dataXml = "";
 		if (resultData != null) {
 			String format = isUrl ? resultDataUrl : resultDataText;
 			dataXml = String.format(format, StringEscapeUtils.escapeXml(resultData));
 		}
-		String xml = String.format(replaceResultMessage, StringEscapeUtils.escapeXml(sourcedid),
-				StringEscapeUtils.escapeXml(score), dataXml);
+
+		String messageIdentifier = StringUtils.isBlank(messageId) ? String.valueOf(new Date().getTime()) : messageId;
+		String xml = String.format(replaceResultMessage,
+			StringEscapeUtils.escapeXml(messageIdentifier),
+			StringEscapeUtils.escapeXml(sourcedid),
+			StringEscapeUtils.escapeXml(score),
+			dataXml);
 
 		HttpParameters parameters = new HttpParameters();
 		String hash = getBodyHash(xml);
