@@ -20,7 +20,7 @@ public class IMSPOXRequestTest {
     public void test() {
 
         String messageId = String.valueOf(new Date().getTime());
-        String inputTestData = String.format(IMSPOXRequest.replaceResultMessage, messageId, "3124567", "A", "");
+        String inputTestData = String.format(IMSPOXRequest.ReplaceResultMessageTemplate, messageId, "3124567", "A", "");
         IMSPOXRequest pox = new IMSPOXRequest(inputTestData);
         Assert.assertEquals("V1.0", pox.getHeaderVersion());
         Assert.assertEquals("replaceResultRequest", pox.getOperation());
