@@ -507,14 +507,62 @@ public class IMSPOXRequest {
 				bodyString, newLine); 
 
 	}
-	
-	public static final String replaceResultMessage =
+
+	/**
+	 * A template string for creating ReplaceResult messages.
+	 *
+	 * Similar to {@link #replaceResultMessage}, except has support for messageIdentifier
+	 *
+	 * Use like:
+	 * <pre>
+	 *     String.format(
+	 *       ReplaceResultMessageTemplate,
+	 *       messageId,
+	 *       sourcedId,
+	 *       resultScore,
+	 *       resultDataXml
+	 *     )
+	 * </pre>
+	 *
+	 *
+	 */
+	public static final String ReplaceResultMessageTemplate =
 			"<?xml version = \"1.0\" encoding = \"UTF-8\"?>"+
 			"<imsx_POXEnvelopeRequest xmlns=\"http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0\">"+
 			"	<imsx_POXHeader>"+
 			"		<imsx_POXRequestHeaderInfo>"+
 			"			<imsx_version>V1.0</imsx_version>"+
 			"			<imsx_messageIdentifier>%s</imsx_messageIdentifier>"+
+			"		</imsx_POXRequestHeaderInfo>"+
+			"	</imsx_POXHeader>"+
+			"	<imsx_POXBody>"+
+			"		<replaceResultRequest>"+
+			"			<resultRecord>"+
+			"				<sourcedGUID>"+
+			"					<sourcedId>%s</sourcedId>"+
+			"				</sourcedGUID>"+
+			"				<result>"+
+			"					<resultScore>"+
+			"						<language>en</language>"+
+			"						<textString>%s</textString>"+
+			"					</resultScore>"+
+			"					%s"+
+			"				</result>"+
+			"			</resultRecord>"+
+			"		</replaceResultRequest>"+
+			"	</imsx_POXBody>"+
+			"</imsx_POXEnvelopeRequest>";
+
+	/**
+	 * @deprecated use {@link #ReplaceResultMessageTemplate} instead.
+	 */
+	@Deprecated
+	public static final String replaceResultMessage =
+			"<?xml version = \"1.0\" encoding = \"UTF-8\"?>"+
+			"<imsx_POXEnvelopeRequest xmlns=\"http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0\">"+
+			"	<imsx_POXHeader>"+
+			"		<imsx_POXRequestHeaderInfo>"+
+			"			<imsx_version>V1.0</imsx_version>"+
 			"		</imsx_POXRequestHeaderInfo>"+
 			"	</imsx_POXHeader>"+
 			"	<imsx_POXBody>"+
@@ -571,7 +619,7 @@ public class IMSPOXRequest {
 		}
 
 		String messageIdentifier = StringUtils.isBlank(messageId) ? String.valueOf(new Date().getTime()) : messageId;
-		String xml = String.format(replaceResultMessage,
+		String xml = String.format(ReplaceResultMessageTemplate,
 			StringEscapeUtils.escapeXml(messageIdentifier),
 			StringEscapeUtils.escapeXml(sourcedid),
 			StringEscapeUtils.escapeXml(score),
