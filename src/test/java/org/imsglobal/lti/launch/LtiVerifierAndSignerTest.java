@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.net.URI;
+import java.util.*;
 
 
 /**
@@ -55,19 +56,6 @@ public class LtiVerifierAndSignerTest {
         LtiVerificationResult result = verifier.verify(new MockHttpGet(ltiServiceGetRequest), secret);
 
         assertTrue(result.getSuccess());
-    }
-
-    @Test
-    public void verifierShouldRejectIncorrectlySignedLtiGetServiceRequests() throws Exception {
-
-        String key = "key";
-        String secret = "secret";
-        HttpGet ltiServiceGetRequest = new HttpGet(new URI("http://example.com/test"));
-
-        signer.sign(ltiServiceGetRequest, key, secret);
-        LtiVerificationResult result = verifier.verify(new MockHttpGet(ltiServiceGetRequest), "anotherWrongSecret");
-
-        assertFalse(result.getSuccess());
     }
 
 }

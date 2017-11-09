@@ -1,6 +1,7 @@
 package org.imsglobal.lti.launch;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -36,6 +37,16 @@ public class LtiLaunch {
         this.contextId = parameters.get("context_id");
         this.launchPresentationReturnUrl = parameters.get("launch_presentation_return_url");
         this.toolConsumerInstanceGuid = parameters.get("tool_consumer_instance_guid");
+    }
+
+    public LtiLaunch(Collection<? extends Map.Entry> parameters) {
+        this.user = new LtiUser(parameters);
+        this.version = LtiOauthVerifier.getKey(parameters, "lti_version");
+        this.messageType = LtiOauthVerifier.getKey(parameters, "lti_message_type");
+        this.resourceLinkId = LtiOauthVerifier.getKey(parameters, "resource_link_id");
+        this.contextId = LtiOauthVerifier.getKey(parameters, "context_id");
+        this.launchPresentationReturnUrl = LtiOauthVerifier.getKey(parameters, "launch_presentation_return_url");
+        this.toolConsumerInstanceGuid = LtiOauthVerifier.getKey(parameters, "tool_consumer_instance_guid");
     }
 
     public LtiUser getUser() {

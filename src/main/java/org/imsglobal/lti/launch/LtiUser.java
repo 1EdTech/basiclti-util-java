@@ -1,6 +1,7 @@
 package org.imsglobal.lti.launch;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,22 @@ public class LtiUser {
                 this.roles.add(role.trim());
             }
         }
+    }
+
+    public LtiUser(Collection<? extends Map.Entry> parameters) {
+        this.id = LtiOauthVerifier.getKey(parameters, "user_id");
+        this.roles = new LinkedList<>();
+        String parameterRoles = LtiOauthVerifier.getKey(parameters, "roles");
+        if(parameterRoles != null) {
+            for (String role : parameterRoles.split(",")) {
+                this.roles.add(role.trim());
+            }
+        }
+    }
+
+    public LtiUser(String id, List<String> roles) {
+        this.id = id;
+        this.roles = roles;
     }
 
     public String getId() {

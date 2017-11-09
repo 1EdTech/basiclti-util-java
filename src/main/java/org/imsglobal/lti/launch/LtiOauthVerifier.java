@@ -4,8 +4,7 @@ import net.oauth.*;
 import net.oauth.server.OAuthServlet;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class LtiOauthVerifier implements LtiVerifier {
 
-    public static final String OAUTH_KEY_PARAMETER= "oauth_consumer_key";
+    public static final String OAUTH_KEY_PARAMETER = "oauth_consumer_key";
 
     private final static Logger logger = Logger.getLogger(LtiOauthVerifier.class.getName());
 
@@ -60,16 +59,39 @@ public class LtiOauthVerifier implements LtiVerifier {
      */
     @Override
     public LtiVerificationResult verifyParameters(Map<String, String> parameters, String url, String method, String secret) throws LtiVerificationException {
-        OAuthMessage oam = new OAuthMessage(method, url, parameters.entrySet());
-        OAuthConsumer cons = new OAuthConsumer(null, parameters.get(OAUTH_KEY_PARAMETER), secret, null);
-        OAuthValidator oav = new SimpleOAuthValidator();
-        OAuthAccessor acc = new OAuthAccessor(cons);
+        return verifyParameters(parameters.entrySet(), url, method, secret);
+    }
 
-        try {
-            oav.validateMessage(oam, acc);
-        } catch (Exception e) {
-            return new LtiVerificationResult(false, LtiError.BAD_REQUEST, "Failed to validate: " + e.getLocalizedMessage() + ", Parameters: " + Arrays.toString(parameters.entrySet().toArray()));
+    @Override
+    public LtiVerificationResult verifyParameters(Collection<? extends Map.Entry<String, String>> parameters, String url, String method, String secret) throws LtiVerificationException {
+        OAuthMessage oam = new OAuthMessage(method, url, parameters);
+        String key = getKey(parameters, OAUTH_KEY_PARAMETER);
+        if(key == null) {
+            return new LtiVerificationResult(false, LtiError.BAD_REQUEST, "No key found in LTI request with parameters: " + Arrays.toString(parameters.toArray()));
+        } else {
+            OAuthConsumer cons = new OAuthConsumer(null, key, secret, null);
+            OAuthValidator oav = new SimpleOAuthValidator();
+            OAuthAccessor acc = new OAuthAccessor(cons);
+
+            try {
+                oav.validateMessage(oam, acc);
+            } catch (Exception e) {
+                return new LtiVerificationResult(false, LtiError.BAD_REQUEST, "Failed to validate: " + e.getLocalizedMessage() + ", Parameters: " + Arrays.toString(parameters.toArray()));
+            }
+            return new LtiVerificationResult(true, new LtiLaunch(parameters));
         }
-        return new LtiVerificationResult(true, new LtiLaunch(parameters));
+    }
+
+    /**
+     * Given a collection of parameters, return the first value for the given key.
+     * returns null if no entry is found with the given key.
+     */
+    public static String getKey(Collection<? extends Map.Entry> parameters, String parameterName) {
+        for(Map.Entry<String, String> entry: parameters) {
+            if(entry.getKey().equals(parameterName)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 }
